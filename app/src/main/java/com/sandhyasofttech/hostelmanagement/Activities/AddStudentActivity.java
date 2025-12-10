@@ -21,6 +21,10 @@
 
     public class AddStudentActivity extends AppCompatActivity {
         private CheckBox cbShareWhatsapp;
+        private LinearLayout llStep1Personal, llStep2Parent, llStep3Docs;
+        private TextView tvStepTitle, tvStepSubtitle, tvStepIndicator;
+        private Button btnNextStep1, btnBackStep2, btnNextStep2, btnBackStep3;
+        private int currentStep = 1;
 
         private ImageView ivStudentImage, ivAddPhoto;
         private ImageView ivAadhaar, ivAddAadhaar;
@@ -66,7 +70,67 @@
 
             tvJoinDate.setOnClickListener(v -> selectJoiningDate());
             btnSave.setOnClickListener(v -> saveStudent());
+
+            showStep(1);
+
+            btnNextStep1.setOnClickListener(v -> {
+                if (validateStep1()) {
+                    showStep(2);
+                }
+            });
+
+            btnBackStep2.setOnClickListener(v -> showStep(1));
+            btnNextStep2.setOnClickListener(v -> {
+                if (validateStep2()) {
+                    showStep(3);
+                }
+            });
+
+            btnBackStep3.setOnClickListener(v -> showStep(2));
+
+// btnSave already calls saveStudent() (no change needed)
+            btnSave.setOnClickListener(v -> saveStudent());
+
         }
+        private void showStep(int step) {
+            currentStep = step;
+
+            llStep1Personal.setVisibility(step == 1 ? View.VISIBLE : View.GONE);
+            llStep2Parent.setVisibility(step == 2 ? View.VISIBLE : View.GONE);
+            llStep3Docs.setVisibility(step == 3 ? View.VISIBLE : View.GONE);
+
+            if (step == 1) {
+                tvStepTitle.setText("Step 1 of 3 - Personal Details");
+                tvStepSubtitle.setText("Fill student's basic information");
+                tvStepIndicator.setText("●  ○  ○");
+            } else if (step == 2) {
+                tvStepTitle.setText("Step 2 of 3 - Parent Information");
+                tvStepSubtitle.setText("Enter parent contact and address");
+                tvStepIndicator.setText("○  ●  ○");
+            } else {
+                tvStepTitle.setText("Step 3 of 3 - Fee & Documents");
+                tvStepSubtitle.setText("Confirm fee and upload documents");
+                tvStepIndicator.setText("○  ○  ●");
+            }
+        }
+        private boolean validateStep1() {
+            if (etName.getText().toString().isEmpty()) { etName.setError("Required"); return false; }
+            if (etPhone.getText().toString().isEmpty()) { etPhone.setError("Required"); return false; }
+            if (etRoom.getText().toString().isEmpty()) { etRoom.setError("Required"); return false; }
+            if (selectedDate.isEmpty()) {
+                Toast.makeText(this, "Select joining date", Toast.LENGTH_SHORT).show();
+                return false;
+            }
+            return true;
+        }
+
+        private boolean validateStep2() {
+            if (etParentName.getText().toString().isEmpty()) { etParentName.setError("Required"); return false; }
+            if (etParentPhone.getText().toString().isEmpty()) { etParentPhone.setError("Required"); return false; }
+            if (etAddress.getText().toString().isEmpty()) { etAddress.setError("Required"); return false; }
+            return true;
+        }
+
 
         private void initViews() {
             ivStudentImage = findViewById(R.id.ivStudentImage);
@@ -88,6 +152,20 @@
             tvJoinDate = findViewById(R.id.tvJoiningDate);
             btnSave = findViewById(R.id.btnSaveStudent);
             progressBar = findViewById(R.id.progressBarAdd);
+
+            tvStepTitle = findViewById(R.id.tvStepTitle);
+            tvStepSubtitle = findViewById(R.id.tvStepSubtitle);
+            tvStepIndicator = findViewById(R.id.tvStepIndicator);
+
+            llStep1Personal = findViewById(R.id.llStep1Personal);
+            llStep2Parent = findViewById(R.id.llStep2Parent);
+            llStep3Docs = findViewById(R.id.llStep3Docs);
+
+            btnNextStep1 = findViewById(R.id.btnNextStep1);
+            btnBackStep2 = findViewById(R.id.btnBackStep2);
+            btnNextStep2 = findViewById(R.id.btnNextStep2);
+            btnBackStep3 = findViewById(R.id.btnBackStep3);
+
         }
 
         private void setupClasses() {
