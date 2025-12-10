@@ -1,0 +1,304 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:padding="14dp"
+    android:background="#F6F8FB">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <!-- Profile Photo with plus overlay -->
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="18dp">
+
+            <ImageView
+                android:id="@+id/ivStudentImage"
+                android:layout_width="140dp"
+                android:layout_height="140dp"
+                android:background="@drawable/circle_white_bg"
+                android:padding="10dp"
+                android:src="@drawable/ic_user"
+                android:scaleType="centerCrop" />
+
+            <ImageView
+                android:id="@+id/ivAddPhoto"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_gravity="bottom|end"
+                android:layout_margin="4dp"
+                android:background="@drawable/circle_blue_bg"
+                android:padding="6dp"
+                android:src="@drawable/img" />
+        </FrameLayout>
+
+        <!-- SECTION: BASIC -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Basic Details"
+            android:textStyle="bold"
+            android:textColor="#333"
+            android:textSize="18sp"
+            android:layout_marginTop="24dp"/>
+
+        <EditText
+            android:id="@+id/etStudentName"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginTop="10dp"
+            android:hint="Student Name"
+            android:background="@drawable/rounded_edittext"
+            android:padding="12dp"
+            android:textSize="15sp"/>
+
+        <EditText
+            android:id="@+id/etStudentPhone"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginTop="10dp"
+            android:hint="Phone Number"
+            android:inputType="phone"
+            android:background="@drawable/rounded_edittext"
+            android:padding="12dp"
+            android:textSize="15sp"/>
+
+        <Spinner
+            android:id="@+id/spStudentClass"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginTop="10dp"
+            android:padding="10dp"
+            android:background="@drawable/rounded_edittext" />
+
+        <EditText
+            android:id="@+id/etStudentRoom"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginTop="10dp"
+            android:hint="Room Number"
+            android:background="@drawable/rounded_edittext"
+            android:padding="12dp"
+            android:textSize="15sp"/>
+
+        <EditText
+            android:id="@+id/etStudentAddress"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginTop="10dp"
+            android:hint="Address"
+            android:background="@drawable/rounded_edittext"
+            android:padding="12dp"
+            android:textSize="15sp"/>
+
+        <EditText
+            android:id="@+id/etStudentFees"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginTop="10dp"
+            android:hint="Annual Fee"
+            android:background="@drawable/rounded_edittext"
+            android:padding="12dp"
+            android:inputType="number"
+            android:textSize="15sp"/>
+
+        <TextView
+            android:id="@+id/tvJoiningDate"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginTop="10dp"
+            android:text="Select Joining Date"
+            android:gravity="center_vertical"
+            android:padding="12dp"
+            android:textColor="#000"
+            android:background="@drawable/rounded_edittext"
+            android:textSize="15sp"/>
+
+        <!-- SECTION: Parents Info -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Parent Information"
+            android:textStyle="bold"
+            android:textColor="#333"
+            android:textSize="18sp"
+            android:layout_marginTop="28dp"/>
+
+        <EditText
+            android:id="@+id/etParentName"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginTop="10dp"
+            android:hint="Parent Full Name"
+            android:background="@drawable/rounded_edittext"
+            android:padding="12dp"/>
+
+        <EditText
+            android:id="@+id/etParentPhone"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginTop="10dp"
+            android:hint="Parent Phone Number"
+            android:inputType="phone"
+            android:background="@drawable/rounded_edittext"
+            android:padding="12dp"/>
+
+        <!-- SECTION: Documents (optional text) -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Documents (Optional)"
+            android:textStyle="bold"
+            android:textColor="#333"
+            android:textSize="18sp"
+            android:layout_marginTop="28dp"/>
+
+        <EditText
+            android:id="@+id/etPan"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginTop="10dp"
+            android:hint="PAN Number (optional)"
+            android:background="@drawable/rounded_edittext"
+            android:padding="12dp"
+            android:inputType="textCapCharacters"/>
+
+        <EditText
+            android:id="@+id/etAadhaar"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginTop="10dp"
+            android:hint="Aadhaar Number (optional)"
+            android:background="@drawable/rounded_edittext"
+            android:padding="12dp"
+            android:inputType="number"/>
+
+        <!-- SECTION: Document Photos (Aadhaar & PAN) -->
+        <!-- SECTION: Document Photos (Aadhaar & PAN) -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_marginTop="16dp">
+
+            <!-- Aadhaar photo -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:gravity="center_horizontal">
+
+                <FrameLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:id="@+id/ivAadhaar"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:background="@drawable/circle_white_bg"
+                        android:padding="10dp"
+                        android:src="@drawable/ic_document"
+                        android:scaleType="centerCrop" />
+
+                    <ImageView
+                        android:id="@+id/ivAddAadhaar"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_gravity="bottom|end"
+                        android:layout_margin="4dp"
+                        android:background="@drawable/circle_blue_bg"
+                        android:padding="4dp"
+                        android:src="@drawable/img" />
+                </FrameLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:text="Aadhaar Photo"
+                    android:textSize="13sp"
+                    android:textColor="#555555" />
+            </LinearLayout>
+
+            <!-- PAN photo -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:gravity="center_horizontal">
+
+                <FrameLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:id="@+id/ivPan"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:background="@drawable/circle_white_bg"
+                        android:padding="10dp"
+                        android:src="@drawable/ic_document"
+                        android:scaleType="centerCrop" />
+
+                    <ImageView
+                        android:id="@+id/ivAddPan"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_gravity="bottom|end"
+                        android:layout_margin="4dp"
+                        android:background="@drawable/circle_blue_bg"
+                        android:padding="4dp"
+                        android:src="@drawable/img" />
+                </FrameLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:text="PAN Photo"
+                    android:textSize="13sp"
+                    android:textColor="#555555" />
+            </LinearLayout>
+
+        </LinearLayout>
+        <CheckBox
+            android:id="@+id/cbShareWhatsapp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Share confirm admission on WhatsApp to parent"
+            android:textSize="13sp"
+            android:textColor="#4B5563" />
+
+        <ProgressBar
+            android:id="@+id/progressBarAdd"
+            android:visibility="gone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="14dp"/>
+
+        <!-- SAVE BUTTON -->
+        <Button
+            android:id="@+id/btnSaveStudent"
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:text="Save Student"
+            android:textStyle="bold"
+            android:layout_marginTop="32dp"
+            android:background="@drawable/rounded_button_blue"
+            android:textColor="#FFF"/>
+
+    </LinearLayout>
+
+</ScrollView>

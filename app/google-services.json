@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "1057566293811",
+    "firebase_url": "https://hostel-management-dashbo-4391f-default-rtdb.firebaseio.com",
+    "project_id": "hostel-management-dashbo-4391f",
+    "storage_bucket": "hostel-management-dashbo-4391f.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1057566293811:android:3c141fbaae80a203408846",
+        "android_client_info": {
+          "package_name": "com.sandhyasofttech.hostelmanagement"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDorZfzypqPTAUNNLVym4p0EeJRs0y4DLc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

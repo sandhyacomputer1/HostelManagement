@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:layout_width="160dp"
+    android:layout_height="90dp"
+    android:orientation="vertical"
+    android:background="@drawable/circle_white_bg"
+    android:gravity="center"
+    android:padding="10dp"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <ImageView
+        android:layout_width="28dp"
+        android:layout_height="28dp"/>
+
+    <TextView
+        android:text="Add Student"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+</LinearLayout>

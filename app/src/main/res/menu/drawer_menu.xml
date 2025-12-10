@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/menuAddStudent"
+        android:title="Add Student"
+        android:icon="@drawable/ic_user" />
+
+    <item
+        android:id="@+id/menuStudents"
+        android:title="View Students"
+        android:icon="@drawable/ic_user" />
+
+    <item
+        android:id="@+id/menuCollectFees"
+        android:title="Collect Fees"
+        android:icon="@drawable/ic_user" />
+
+    <item
+        android:id="@+id/menuCollectFeesHistory"
+        android:title="Fee History"
+        android:icon="@drawable/ic_document" />
+    <!-- Add to activity_main_drawer.xml -->
+    <item
+        android:id="@+id/menuExpenses"
+        android:title="Expenses" />
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/menuLogout"
+            android:title="Logout"
+            android:icon="@drawable/ic_document" />
+    </group>
+
+</menu>
