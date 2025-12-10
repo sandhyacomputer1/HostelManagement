@@ -3,11 +3,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
+    android:background="@color/white"
     android:padding="14dp"
-    android:background="#F6F8FB">
+  >
 
     <LinearLayout
         android:orientation="vertical"
+        android:background="@color/white"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -55,7 +57,7 @@
             android:layout_marginTop="10dp"
             android:hint="Student Name"
             android:background="@drawable/rounded_edittext"
-            android:padding="12dp"
+            android:padding="15dp"
             android:textSize="15sp"/>
 
         <EditText
