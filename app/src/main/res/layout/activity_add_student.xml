@@ -4,8 +4,7 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     android:background="@color/white"
-    android:padding="14dp"
-  >
+    android:padding="14dp">
 
 
     <LinearLayout
@@ -16,293 +15,417 @@
         android:layout_height="wrap_content">
 
 
-        <!-- Profile Photo with plus overlay -->
-        <FrameLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="18dp">
-
-            <ImageView
-                android:id="@+id/ivStudentImage"
-                android:layout_width="140dp"
-                android:layout_height="140dp"
-                android:background="@drawable/circle_white_bg"
-                android:padding="10dp"
-                android:src="@drawable/ic_user"
-                android:scaleType="centerCrop" />
-
-            <ImageView
-                android:id="@+id/ivAddPhoto"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:layout_gravity="bottom|end"
-                android:layout_margin="4dp"
-                android:background="@drawable/circle_blue_bg"
-                android:padding="6dp"
-                android:src="@drawable/img" />
-        </FrameLayout>
-
-        <!-- SECTION: BASIC -->
+        <!-- STEP HEADER -->
         <TextView
+            android:id="@+id/tvStepTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Basic Details"
+            android:text="Step 1 of 3 - Personal Details"
             android:textStyle="bold"
-            android:textColor="#333"
+            android:textColor="#111827"
             android:textSize="18sp"
-            android:layout_marginTop="24dp"/>
-
-        <EditText
-            android:id="@+id/etStudentName"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:layout_marginTop="10dp"
-            android:hint="Student Name"
-            android:background="@drawable/rounded_edittext"
-            android:padding="15dp"
-            android:textSize="15sp"/>
-
-        <EditText
-            android:id="@+id/etStudentPhone"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:layout_marginTop="10dp"
-            android:hint="Phone Number"
-            android:inputType="phone"
-            android:background="@drawable/rounded_edittext"
-            android:padding="12dp"
-            android:textSize="15sp"/>
-
-        <Spinner
-            android:id="@+id/spStudentClass"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:layout_marginTop="10dp"
-            android:padding="10dp"
-            android:background="@drawable/rounded_edittext" />
-
-        <EditText
-            android:id="@+id/etStudentRoom"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:layout_marginTop="10dp"
-            android:hint="Room Number"
-            android:background="@drawable/rounded_edittext"
-            android:padding="12dp"
-            android:textSize="15sp"/>
-
-        <EditText
-            android:id="@+id/etStudentAddress"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:layout_marginTop="10dp"
-            android:hint="Address"
-            android:background="@drawable/rounded_edittext"
-            android:padding="12dp"
-            android:textSize="15sp"/>
-
-        <EditText
-            android:id="@+id/etStudentFees"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:layout_marginTop="10dp"
-            android:hint="Annual Fee"
-            android:background="@drawable/rounded_edittext"
-            android:padding="12dp"
-            android:inputType="number"
-            android:textSize="15sp"/>
+            android:layout_marginTop="8dp" />
 
         <TextView
-            android:id="@+id/tvJoiningDate"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:layout_marginTop="10dp"
-            android:text="Select Joining Date"
-            android:gravity="center_vertical"
-            android:padding="12dp"
-            android:textColor="#000"
-            android:background="@drawable/rounded_edittext"
-            android:textSize="15sp"/>
-
-        <!-- SECTION: Parents Info -->
-        <TextView
+            android:id="@+id/tvStepSubtitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Parent Information"
-            android:textStyle="bold"
-            android:textColor="#333"
-            android:textSize="18sp"
-            android:layout_marginTop="28dp"/>
+            android:text="Fill student's basic information"
+            android:textColor="#6B7280"
+            android:textSize="13sp"
+            android:layout_marginTop="2dp" />
 
-        <EditText
-            android:id="@+id/etParentName"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:layout_marginTop="10dp"
-            android:hint="Parent Full Name"
-            android:background="@drawable/rounded_edittext"
-            android:padding="12dp"/>
-
-        <EditText
-            android:id="@+id/etParentPhone"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:layout_marginTop="10dp"
-            android:hint="Parent Phone Number"
-            android:inputType="phone"
-            android:background="@drawable/rounded_edittext"
-            android:padding="12dp"/>
-
-        <!-- SECTION: Documents (optional text) -->
+        <!-- SIMPLE STEP INDICATOR -->
         <TextView
+            android:id="@+id/tvStepIndicator"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Documents (Optional)"
-            android:textStyle="bold"
-            android:textColor="#333"
-            android:textSize="18sp"
-            android:layout_marginTop="28dp"/>
+            android:text="●  ○  ○"
+            android:textColor="#2563EB"
+            android:textSize="14sp"
+            android:layout_marginTop="8dp" />
 
-        <EditText
-            android:id="@+id/etPan"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:layout_marginTop="10dp"
-            android:hint="PAN Number (optional)"
-            android:background="@drawable/rounded_edittext"
-            android:padding="12dp"
-            android:inputType="textCapCharacters"/>
-
-        <EditText
-            android:id="@+id/etAadhaar"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:layout_marginTop="10dp"
-            android:hint="Aadhaar Number (optional)"
-            android:background="@drawable/rounded_edittext"
-            android:padding="12dp"
-            android:inputType="number"/>
-
-        <!-- SECTION: Document Photos (Aadhaar & PAN) -->
-        <!-- SECTION: Document Photos (Aadhaar & PAN) -->
+        <!-- ================= STEP 1 : PERSONAL ================= -->
         <LinearLayout
+            android:id="@+id/llStep1Personal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center"
+            android:orientation="vertical"
             android:layout_marginTop="16dp">
 
-            <!-- Aadhaar photo -->
-            <LinearLayout
-                android:layout_width="0dp"
+            <!-- Profile Photo with plus overlay -->
+            <FrameLayout
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="vertical"
-                android:gravity="center_horizontal">
+                android:layout_gravity="center"
+                android:layout_marginTop="18dp">
 
-                <FrameLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
+                <ImageView
+                    android:id="@+id/ivStudentImage"
+                    android:layout_width="140dp"
+                    android:layout_height="140dp"
+                    android:background="@drawable/circle_white_bg"
+                    android:padding="10dp"
+                    android:src="@drawable/ic_user"
+                    android:scaleType="centerCrop" />
 
-                    <ImageView
-                        android:id="@+id/ivAadhaar"
-                        android:layout_width="100dp"
-                        android:layout_height="100dp"
-                        android:background="@drawable/circle_white_bg"
-                        android:padding="10dp"
-                        android:src="@drawable/ic_document"
-                        android:scaleType="centerCrop" />
+                <ImageView
+                    android:id="@+id/ivAddPhoto"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_gravity="bottom|end"
+                    android:layout_margin="4dp"
+                    android:background="@drawable/circle_blue_bg"
+                    android:padding="6dp"
+                    android:src="@drawable/img" />
+            </FrameLayout>
 
-                    <ImageView
-                        android:id="@+id/ivAddAadhaar"
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:layout_gravity="bottom|end"
-                        android:layout_margin="4dp"
-                        android:background="@drawable/circle_blue_bg"
-                        android:padding="4dp"
-                        android:src="@drawable/img" />
-                </FrameLayout>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="6dp"
-                    android:text="Aadhaar Photo"
-                    android:textSize="13sp"
-                    android:textColor="#555555" />
-            </LinearLayout>
-
-            <!-- PAN photo -->
-            <LinearLayout
-                android:layout_width="0dp"
+            <!-- SECTION: BASIC -->
+            <TextView
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="vertical"
-                android:gravity="center_horizontal">
+                android:text="Basic Details"
+                android:textStyle="bold"
+                android:textColor="#333"
+                android:textSize="18sp"
+                android:layout_marginTop="24dp"/>
 
-                <FrameLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
+            <EditText
+                android:id="@+id/etStudentName"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginTop="10dp"
+                android:hint="Student Name *"
+                android:background="@drawable/rounded_edittext"
+                android:padding="15dp"
+                android:textSize="15sp"/>
 
-                    <ImageView
-                        android:id="@+id/ivPan"
-                        android:layout_width="100dp"
-                        android:layout_height="100dp"
-                        android:background="@drawable/circle_white_bg"
-                        android:padding="10dp"
-                        android:src="@drawable/ic_document"
-                        android:scaleType="centerCrop" />
+            <EditText
+                android:id="@+id/etStudentPhone"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginTop="10dp"
+                android:hint="Phone Number *"
+                android:inputType="phone"
+                android:background="@drawable/rounded_edittext"
+                android:padding="12dp"
+                android:textSize="15sp"/>
 
-                    <ImageView
-                        android:id="@+id/ivAddPan"
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:layout_gravity="bottom|end"
-                        android:layout_margin="4dp"
-                        android:background="@drawable/circle_blue_bg"
-                        android:padding="4dp"
-                        android:src="@drawable/img" />
-                </FrameLayout>
+            <Spinner
+                android:id="@+id/spStudentClass"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginTop="10dp"
+                android:padding="10dp"
+                android:background="@drawable/rounded_edittext" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="6dp"
-                    android:text="PAN Photo"
-                    android:textSize="13sp"
-                    android:textColor="#555555" />
+            <EditText
+                android:id="@+id/etStudentRoom"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginTop="10dp"
+                android:hint="Room Number *"
+                android:background="@drawable/rounded_edittext"
+                android:padding="12dp"
+                android:textSize="15sp"/>
+
+            <TextView
+                android:id="@+id/tvJoiningDate"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginTop="10dp"
+                android:text="Select Joining Date *"
+                android:gravity="center_vertical"
+                android:padding="12dp"
+                android:textColor="#000"
+                android:background="@drawable/rounded_edittext"
+                android:textSize="15sp"/>
+
+            <!-- STEP 1 BUTTONS -->
+            <Button
+                android:id="@+id/btnNextStep1"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginTop="24dp"
+                android:text="Next: Parent Details"
+                android:textStyle="bold"
+                android:background="@drawable/rounded_button_blue"
+                android:textColor="#FFFFFF" />
+
+        </LinearLayout>
+
+        <!-- ================= STEP 2 : PARENTS ================= -->
+        <LinearLayout
+            android:id="@+id/llStep2Parent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="16dp"
+            android:visibility="gone">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Parent Information"
+                android:textStyle="bold"
+                android:textColor="#333"
+                android:textSize="18sp"
+                android:layout_marginTop="8dp"/>
+
+            <EditText
+                android:id="@+id/etParentName"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginTop="10dp"
+                android:hint="Parent Full Name *"
+                android:background="@drawable/rounded_edittext"
+                android:padding="12dp"/>
+
+            <EditText
+                android:id="@+id/etParentPhone"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginTop="10dp"
+                android:hint="Parent Phone Number *"
+                android:inputType="phone"
+                android:background="@drawable/rounded_edittext"
+                android:padding="12dp"/>
+
+            <EditText
+                android:id="@+id/etStudentAddress"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginTop="10dp"
+                android:hint="Address *"
+                android:background="@drawable/rounded_edittext"
+                android:padding="12dp"
+                android:textSize="15sp"/>
+
+            <!-- STEP 2 BUTTONS -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="24dp">
+
+                <Button
+                    android:id="@+id/btnBackStep2"
+                    android:layout_width="0dp"
+                    android:layout_height="48dp"
+                    android:layout_weight="1"
+                    android:text="Back"
+                    android:background="@drawable/rounded_edittext"
+                    android:textColor="#111827" />
+
+                <Space
+                    android:layout_width="12dp"
+                    android:layout_height="1dp" />
+
+                <Button
+                    android:id="@+id/btnNextStep2"
+                    android:layout_width="0dp"
+                    android:layout_height="48dp"
+                    android:layout_weight="1"
+                    android:text="Next: Documents"
+                    android:textStyle="bold"
+                    android:background="@drawable/rounded_button_blue"
+                    android:textColor="#FFFFFF" />
+
             </LinearLayout>
 
         </LinearLayout>
-        <CheckBox
-            android:id="@+id/cbShareWhatsapp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="Share confirm admission on WhatsApp to parent"
-            android:textSize="13sp"
-            android:textColor="#4B5563" />
 
-        <ProgressBar
-            android:id="@+id/progressBarAdd"
-            android:visibility="gone"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="14dp"/>
-
-        <!-- SAVE BUTTON -->
-        <Button
-            android:id="@+id/btnSaveStudent"
+        <!-- ================= STEP 3 : DOCUMENTS & CONFIRM ================= -->
+        <LinearLayout
+            android:id="@+id/llStep3Docs"
             android:layout_width="match_parent"
-            android:layout_height="52dp"
-            android:text="Save Student"
-            android:textStyle="bold"
-            android:layout_marginTop="32dp"
-            android:background="@drawable/rounded_button_blue"
-            android:textColor="#FFF"/>
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="16dp"
+            android:visibility="gone">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Fee &amp; Documents"
+                android:textStyle="bold"
+                android:textColor="#333"
+                android:textSize="18sp"
+                android:layout_marginTop="8dp"/>
+
+            <EditText
+                android:id="@+id/etStudentFees"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginTop="10dp"
+                android:hint="Annual Fee *"
+                android:background="@drawable/rounded_edittext"
+                android:padding="12dp"
+                android:inputType="number"
+                android:textSize="15sp"/>
+
+            <EditText
+                android:id="@+id/etPan"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginTop="10dp"
+                android:hint="PAN Number (optional)"
+                android:background="@drawable/rounded_edittext"
+                android:padding="12dp"
+                android:inputType="textCapCharacters"/>
+
+            <EditText
+                android:id="@+id/etAadhaar"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginTop="10dp"
+                android:hint="Aadhaar Number (optional)"
+                android:background="@drawable/rounded_edittext"
+                android:padding="12dp"
+                android:inputType="number"/>
+
+            <!-- DOCUMENT PHOTOS (Aadhaar & PAN) -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:layout_marginTop="16dp">
+
+                <!-- Aadhaar photo -->
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:gravity="center_horizontal">
+
+                    <FrameLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <ImageView
+                            android:id="@+id/ivAadhaar"
+                            android:layout_width="100dp"
+                            android:layout_height="100dp"
+                            android:background="@drawable/circle_white_bg"
+                            android:padding="10dp"
+                            android:src="@drawable/ic_document"
+                            android:scaleType="centerCrop" />
+
+                        <ImageView
+                            android:id="@+id/ivAddAadhaar"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:layout_gravity="bottom|end"
+                            android:layout_margin="4dp"
+                            android:background="@drawable/circle_blue_bg"
+                            android:padding="4dp"
+                            android:src="@drawable/img" />
+                    </FrameLayout>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp"
+                        android:text="Aadhaar Photo"
+                        android:textSize="13sp"
+                        android:textColor="#555555" />
+                </LinearLayout>
+
+                <!-- PAN photo -->
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:gravity="center_horizontal">
+
+                    <FrameLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <ImageView
+                            android:id="@+id/ivPan"
+                            android:layout_width="100dp"
+                            android:layout_height="100dp"
+                            android:background="@drawable/circle_white_bg"
+                            android:padding="10dp"
+                            android:src="@drawable/ic_document"
+                            android:scaleType="centerCrop" />
+
+                        <ImageView
+                            android:id="@+id/ivAddPan"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:layout_gravity="bottom|end"
+                            android:layout_margin="4dp"
+                            android:background="@drawable/circle_blue_bg"
+                            android:padding="4dp"
+                            android:src="@drawable/img" />
+                    </FrameLayout>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp"
+                        android:text="PAN Photo"
+                        android:textSize="13sp"
+                        android:textColor="#555555" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <CheckBox
+                android:id="@+id/cbShareWhatsapp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="Share confirm admission on WhatsApp to parent"
+                android:textSize="13sp"
+                android:textColor="#4B5563" />
+
+            <ProgressBar
+                android:id="@+id/progressBarAdd"
+                android:visibility="gone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="14dp"/>
+
+            <!-- STEP 3 BUTTONS -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="24dp">
+
+                <Button
+                    android:id="@+id/btnBackStep3"
+                    android:layout_width="0dp"
+                    android:layout_height="48dp"
+                    android:layout_weight="1"
+                    android:text="Back"
+                    android:background="@drawable/rounded_edittext"
+                    android:textColor="#111827" />
+
+                <Space
+                    android:layout_width="12dp"
+                    android:layout_height="1dp" />
+
+                <Button
+                    android:id="@+id/btnSaveStudent"
+                    android:layout_width="0dp"
+                    android:layout_height="52dp"
+                    android:layout_weight="1"
+                    android:text="Save Student"
+                    android:textStyle="bold"
+                    android:background="@drawable/rounded_button_blue"
+                    android:textColor="#FFF"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
 
     </LinearLayout>
 

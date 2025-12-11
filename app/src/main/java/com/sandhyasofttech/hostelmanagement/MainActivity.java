@@ -23,6 +23,7 @@ import com.sandhyasofttech.hostelmanagement.Activities.CollectFeesActivity;
 import com.sandhyasofttech.hostelmanagement.Activities.ExpenseListActivity;
 import com.sandhyasofttech.hostelmanagement.Activities.FeeHistoryActivity;
 import com.sandhyasofttech.hostelmanagement.Activities.ProfileActivity;
+import com.sandhyasofttech.hostelmanagement.Activities.RoomsActivity;
 import com.sandhyasofttech.hostelmanagement.Activities.StudentListActivity;
 import com.sandhyasofttech.hostelmanagement.Registration.LoginActivity;
 import com.sandhyasofttech.hostelmanagement.Models.StudentModel;
@@ -180,6 +181,9 @@ public class MainActivity extends AppCompatActivity {
             }
             if (item.getItemId() == R.id.menuExpenses) {
                 startActivity(new Intent(MainActivity.this, ExpenseListActivity.class));
+            }
+            if (item.getItemId() == R.id.menuRooms) {
+                startActivity(new Intent(MainActivity.this, RoomsActivity.class));
             }
             if (item.getItemId() == R.id.menuLogout) {
                 new androidx.appcompat.app.AlertDialog.Builder(MainActivity.this)

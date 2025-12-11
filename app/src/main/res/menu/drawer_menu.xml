@@ -24,6 +24,9 @@
     <item
         android:id="@+id/menuExpenses"
         android:title="Expenses" />
+    <item
+        android:id="@+id/menuRooms"
+        android:title="Rooms" />
 
     <group android:checkableBehavior="single">
         <item

@@ -17,6 +17,12 @@
         android:theme="@style/Theme.HostelManagement"
         tools:targetApi="31">
         <activity
+            android:name=".Activities.RoomsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activities.AddRoomActivity"
+            android:exported="false" />
+        <activity
             android:name=".Activities.ExpenseListActivity"
             android:exported="false" />
         <activity

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:padding="16dp"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/etEditRoomNo"
+        android:hint="Room No" android:layout_width="match_parent" android:layout_height="wrap_content"/>
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/etEditCapacity"
+        android:hint="Capacity" android:inputType="number"
+        android:layout_marginTop="8dp" android:layout_width="match_parent" android:layout_height="wrap_content"/>
+
+    <Spinner android:id="@+id/spEditType"
+        android:layout_marginTop="8dp" android:layout_width="match_parent" android:layout_height="wrap_content"/>
+</LinearLayout>
