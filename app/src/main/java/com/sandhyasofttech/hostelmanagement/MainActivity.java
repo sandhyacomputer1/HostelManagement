@@ -7,23 +7,24 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.fragment.app.Fragment;
+import androidx.viewpager2.widget.ViewPager2;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.sandhyasofttech.hostelmanagement.Activities.*;
-import com.sandhyasofttech.hostelmanagement.Fragment.DashboardFragment;
-import com.sandhyasofttech.hostelmanagement.Fragment.SettingsFragment;
+import com.sandhyasofttech.hostelmanagement.Adapters.ViewPagerAdapter;
 import com.sandhyasofttech.hostelmanagement.Registration.LoginActivity;
 
 public class MainActivity extends AppCompatActivity {
-
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle toggle;
+    private ViewPager2 viewPager;
     private BottomNavigationView bottomNavigationView;
     private FloatingActionButton fab;
+    private ViewPagerAdapter viewPagerAdapter;
+    private boolean isUserInitiatedScroll = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,15 +40,13 @@ public class MainActivity extends AppCompatActivity {
 
         initViews();
         setupToolbarAndDrawer();
+        setupViewPager();
         setupBottomNavAndFAB();
-
-        // Load default fragment
-        replaceFragment(new DashboardFragment());
-        bottomNavigationView.setSelectedItemId(R.id.nav_dashboard);
     }
 
     private void initViews() {
-        drawerLayout = findViewById(R.id.drawer_layout);                    // Fixed: Correct ID
+        drawerLayout = findViewById(R.id.drawer_layout);
+        viewPager = findViewById(R.id.viewpager);
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
         fab = findViewById(R.id.fab);
     }
@@ -94,18 +93,52 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    private void setupViewPager() {
+        // Create and attach adapter to ViewPager2
+        viewPagerAdapter = new ViewPagerAdapter(this);
+        viewPager.setAdapter(viewPagerAdapter);
+
+        // Set page transformer for smooth animations
+        viewPager.setPageTransformer(new ViewPager2.PageTransformer() {
+            @Override
+            public void transformPage(@NonNull android.view.View page, float position) {
+                // Optional: Add parallax or other effects
+                page.setAlpha(1 - (Math.abs(position) * 0.3f));
+            }
+        });
+
+        // Listen to page changes and sync with bottom navigation
+        viewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
+            @Override
+            public void onPageSelected(int position) {
+                super.onPageSelected(position);
+                if (isUserInitiatedScroll) {
+                    // Update bottom nav without triggering ViewPager2 callback
+                    isUserInitiatedScroll = false;
+                    updateBottomNav(position);
+                    updateToolbarTitle(position);
+                    isUserInitiatedScroll = true;
+                }
+            }
+        });
+    }
+
     private void setupBottomNavAndFAB() {
         bottomNavigationView.setOnItemSelectedListener(item -> {
             int id = item.getItemId();
 
             if (id == R.id.nav_dashboard) {
-                replaceFragment(new DashboardFragment());
-                getSupportActionBar().setTitle("Dashboard");
+                isUserInitiatedScroll = false;
+                viewPager.setCurrentItem(ViewPagerAdapter.TAB_DASHBOARD, true);
+                isUserInitiatedScroll = true;
+                return true;
             } else if (id == R.id.nav_settings) {
-                replaceFragment(new SettingsFragment());
-                getSupportActionBar().setTitle("Settings");
+                isUserInitiatedScroll = false;
+                viewPager.setCurrentItem(ViewPagerAdapter.TAB_SETTINGS, true);
+                isUserInitiatedScroll = true;
+                return true;
             }
-            return true;
+            return false;
         });
 
         // FAB → Add Student
@@ -113,26 +146,39 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(new Intent(this, AddStudentActivity.class)));
     }
 
-    private void replaceFragment(Fragment fragment) {
-        getSupportFragmentManager()
-                .beginTransaction()
-                .replace(R.id.fragment_container, fragment)
-                .setReorderingAllowed(true)
-                .commit();
+    private void updateBottomNav(int position) {
+        switch (position) {
+            case ViewPagerAdapter.TAB_DASHBOARD:
+                bottomNavigationView.setSelectedItemId(R.id.nav_dashboard);
+                break;
+            case ViewPagerAdapter.TAB_SETTINGS:
+                bottomNavigationView.setSelectedItemId(R.id.nav_settings);
+                break;
+        }
+    }
+
+    private void updateToolbarTitle(int position) {
+        switch (position) {
+            case ViewPagerAdapter.TAB_DASHBOARD:
+                getSupportActionBar().setTitle("Dashboard");
+                break;
+            case ViewPagerAdapter.TAB_SETTINGS:
+                getSupportActionBar().setTitle("Settings");
+                break;
+        }
     }
 
     @Override
     public void onBackPressed() {
         if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
             drawerLayout.closeDrawer(GravityCompat.START);
-        } else if (bottomNavigationView.getSelectedItemId() != R.id.nav_dashboard) {
-            bottomNavigationView.setSelectedItemId(R.id.nav_dashboard);
+        } else if (viewPager.getCurrentItem() != ViewPagerAdapter.TAB_DASHBOARD) {
+            viewPager.setCurrentItem(ViewPagerAdapter.TAB_DASHBOARD, true);
         } else {
             super.onBackPressed();
         }
     }
 
-    // Optional: Handle drawer open/close with hamburger icon animation
     @Override
     public boolean onSupportNavigateUp() {
         if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
