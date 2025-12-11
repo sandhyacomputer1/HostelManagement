@@ -151,18 +151,18 @@
             btnSave = findViewById(R.id.btnSaveStudent);
             progressBar = findViewById(R.id.progressBarAdd);
 
-            tvStepTitle = findViewById(R.id.tvStepTitle);
-            tvStepSubtitle = findViewById(R.id.tvStepSubtitle);
-            tvStepIndicator = findViewById(R.id.tvStepIndicator);
-
-            llStep1Personal = findViewById(R.id.llStep1Personal);
-            llStep2Parent = findViewById(R.id.llStep2Parent);
-            llStep3Docs = findViewById(R.id.llStep3Docs);
-
-            btnNextStep1 = findViewById(R.id.btnNextStep1);
-            btnBackStep2 = findViewById(R.id.btnBackStep2);
-            btnNextStep2 = findViewById(R.id.btnNextStep2);
-            btnBackStep3 = findViewById(R.id.btnBackStep3);
+//        tvStepTitle = findViewById(R.id.tvStepTitle);
+//            tvStepSubtitle = findViewById(R.id.tvStepSubtitle);
+//            tvStepIndicator = findViewById(R.id.tvStepIndicator);
+//
+//            llStep1Personal = findViewById(R.id.llStep1Personal);
+//            llStep2Parent = findViewById(R.id.llStep2Parent);
+//            llStep3Docs = findViewById(R.id.llStep3Docs);
+//
+//            btnNextStep1 = findViewById(R.id.btnNextStep1);
+//            btnBackStep2 = findViewById(R.id.btnBackStep2);
+//            btnNextStep2 = findViewById(R.id.btnNextStep2);
+//            btnBackStep3 = findViewById(R.id.btnBackStep3);
 
         }
 
