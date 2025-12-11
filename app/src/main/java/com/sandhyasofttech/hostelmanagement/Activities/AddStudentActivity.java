@@ -6,6 +6,8 @@
     import android.os.Bundle;
     import android.view.View;
     import android.widget.*;
+
+    import androidx.annotation.NonNull;
     import androidx.annotation.Nullable;
     import androidx.appcompat.app.AppCompatActivity;
 
@@ -18,6 +20,10 @@
 
     import java.util.Calendar;
     import java.util.HashMap;
+    import com.sandhyasofttech.hostelmanagement.Models.Room;
+    import java.util.ArrayList;
+    import java.util.List;
+    import java.util.Map;
 
     public class AddStudentActivity extends AppCompatActivity {
         private CheckBox cbShareWhatsapp;
@@ -30,7 +36,7 @@
         private ImageView ivAadhaar, ivAddAadhaar;
         private ImageView ivPan, ivAddPan;
 
-        private EditText etName, etPhone, etRoom, etAddress, etFees;
+        private EditText etName, etPhone, etAddress, etFees;
         private EditText etParentName, etParentPhone;
         private Spinner spClass;
         private TextView tvJoinDate;
@@ -40,6 +46,12 @@
         private Uri mainPhotoUri;
         private Uri aadhaarPhotoUri;
         private Uri panPhotoUri;
+
+        private Spinner spStudentRoom;
+        private ArrayAdapter<String> roomAdapter;
+        private List<Room> roomList = new ArrayList<>();
+        private List<String> roomDisplayList = new ArrayList<>();
+        private DatabaseReference roomsRef;
 
         private String selectedDate = "";
 
@@ -52,6 +64,8 @@
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_add_student);
 
+            setupFirebase();
+            loadAvailableRooms();
             initViews();
             setupClasses();
 
@@ -90,6 +104,47 @@
 
 
         }
+        private void setupFirebase() {
+            String email = FirebaseAuth.getInstance().getCurrentUser().getEmail();
+            String safeEmail = email.replace(".", ",");
+            roomsRef = FirebaseDatabase.getInstance()
+                    .getReference("HostelManagement")
+                    .child(safeEmail)
+                    .child("Rooms");
+
+        }
+        private void loadAvailableRooms() {
+            roomsRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    roomList.clear();
+                    roomDisplayList.clear();
+
+                    for (DataSnapshot ds : snapshot.getChildren()) {
+                        Room room = ds.getValue(Room.class);
+                        if (room != null && room.available > 0) {  // Only available rooms
+                            roomList.add(room);
+                            String display = room.roomNo + " (" + room.available + " beds free)";
+                            roomDisplayList.add(display);
+                        }
+                    }
+
+                    if (roomDisplayList.isEmpty()) {
+                        roomDisplayList.add("No rooms available");
+                    }
+
+                    roomAdapter = new ArrayAdapter<>(AddStudentActivity.this,
+                            android.R.layout.simple_spinner_item, roomDisplayList);
+                    roomAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                    spStudentRoom.setAdapter(roomAdapter);
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                    Toast.makeText(AddStudentActivity.this, "Failed to load rooms", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
         private void showStep(int step) {
             currentStep = step;
 
@@ -114,8 +169,10 @@
         private boolean validateStep1() {
             if (etName.getText().toString().isEmpty()) { etName.setError("Required"); return false; }
             if (etPhone.getText().toString().isEmpty()) { etPhone.setError("Required"); return false; }
-            if (etRoom.getText().toString().isEmpty()) { etRoom.setError("Required"); return false; }
-            if (selectedDate.isEmpty()) {
+            if (roomList.isEmpty() || spStudentRoom.getSelectedItemPosition() < 0) {
+                Toast.makeText(this, "Select a room", Toast.LENGTH_SHORT).show();
+                return false;
+            }            if (selectedDate.isEmpty()) {
                 Toast.makeText(this, "Select joining date", Toast.LENGTH_SHORT).show();
                 return false;
             }
@@ -141,7 +198,7 @@
 
             etName = findViewById(R.id.etStudentName);
             etPhone = findViewById(R.id.etStudentPhone);
-            etRoom = findViewById(R.id.etStudentRoom);
+            spStudentRoom = findViewById(R.id.spStudentRoom);
             etAddress = findViewById(R.id.etStudentAddress);
             etFees = findViewById(R.id.etStudentFees);
             etParentName = findViewById(R.id.etParentName);
@@ -288,7 +345,9 @@
             map.put("id", studentId);
             map.put("name", etName.getText().toString());
             map.put("phone", etPhone.getText().toString());
-            map.put("room", etRoom.getText().toString());
+            int selectedPos = spStudentRoom.getSelectedItemPosition();
+            String selectedRoomNo = roomList.get(selectedPos).roomNo;
+            map.put("room", selectedRoomNo);
             map.put("address", etAddress.getText().toString());
             map.put("joiningDate", selectedDate);
 
@@ -304,11 +363,13 @@
             map.put("panPhotoUrl", panUrl);
             map.put("active", true);
 
-            ref.child(studentId)
-                    .setValue(map)
+            ref.child(studentId).setValue(map)
                     .addOnSuccessListener(done -> {
-                        Toast.makeText(this, "Student Saved ✔", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, "Student Saved", Toast.LENGTH_SHORT).show();
                         showLoader(false);
+
+                        // THIS IS THE MISSING PART — UPDATE ROOM COUNTS!
+                        updateRoomOccupancy(selectedRoomNo);  // ← NEW LINE
 
                         if (cbShareWhatsapp.isChecked()) {
                             createAndShareAdmissionPdf(studentId, map);
@@ -317,11 +378,46 @@
                         finish();
                     })
                     .addOnFailureListener(e -> {
-                        Toast.makeText(this, "Failed !", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, "Failed!", Toast.LENGTH_SHORT).show();
                         showLoader(false);
                     });
 
 
+        }
+        private void updateRoomOccupancy(String roomNo) {
+            String email = FirebaseAuth.getInstance().getCurrentUser().getEmail();
+            String safeEmail = email.replace(".", ",");
+
+            DatabaseReference roomsRef = FirebaseDatabase.getInstance()
+                    .getReference("HostelManagement")
+                    .child(safeEmail)
+                    .child("Rooms");
+
+            roomsRef.orderByChild("roomNo").equalTo(roomNo)
+                    .addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            if (snapshot.exists()) {
+                                for (DataSnapshot ds : snapshot.getChildren()) {
+                                    String roomId = ds.getKey();
+                                    Room room = ds.getValue(Room.class);
+                                    if (room != null) {
+                                        int newOccupied = room.occupied + 1;
+                                        int newAvailable = room.available - 1;
+
+                                        Map<String, Object> updates = new HashMap<>();
+                                        updates.put("occupied", newOccupied);
+                                        updates.put("available", newAvailable);
+
+                                        roomsRef.child(roomId).updateChildren(updates);
+                                    }
+                                }
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {}
+                    });
         }
         private void createAndShareAdmissionPdf(String studentId, HashMap<String, Object> data) {
             android.graphics.pdf.PdfDocument pdf = null;
@@ -454,8 +550,10 @@
 
             if (etName.getText().toString().isEmpty()) { etName.setError("Required"); return false; }
             if (etPhone.getText().toString().isEmpty()) { etPhone.setError("Required"); return false; }
-            if (etRoom.getText().toString().isEmpty()) { etRoom.setError("Required"); return false; }
-            if (etAddress.getText().toString().isEmpty()) { etAddress.setError("Required"); return false; }
+            if (roomList.isEmpty() || spStudentRoom.getSelectedItemPosition() == -1) {
+                Toast.makeText(this, "Please select a room", Toast.LENGTH_SHORT).show();
+                return false;
+            }            if (etAddress.getText().toString().isEmpty()) { etAddress.setError("Required"); return false; }
             if (etFees.getText().toString().isEmpty()) { etFees.setError("Required"); return false; }
 
             if (selectedDate.isEmpty()) {

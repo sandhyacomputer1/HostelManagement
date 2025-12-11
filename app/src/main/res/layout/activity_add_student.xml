@@ -119,15 +119,23 @@
                 android:padding="10dp"
                 android:background="@drawable/rounded_edittext" />
 
-            <EditText
-                android:id="@+id/etStudentRoom"
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Select Room *"
+                android:textColor="#333"
+                android:textStyle="bold"
+                android:textSize="14sp"
+                android:layout_marginTop="16dp"/>
+
+            <Spinner
+                android:id="@+id/spStudentRoom"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
-                android:layout_marginTop="10dp"
-                android:hint="Room Number *"
+                android:layout_marginTop="6dp"
                 android:background="@drawable/rounded_edittext"
-                android:padding="12dp"
-                android:textSize="15sp"/>
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp" />
 
             <TextView
                 android:id="@+id/tvJoiningDate"
