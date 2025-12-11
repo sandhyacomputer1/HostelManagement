@@ -88,8 +88,6 @@
 
             btnBackStep3.setOnClickListener(v -> showStep(2));
 
-// btnSave already calls saveStudent() (no change needed)
-            btnSave.setOnClickListener(v -> saveStudent());
 
         }
         private void showStep(int step) {
