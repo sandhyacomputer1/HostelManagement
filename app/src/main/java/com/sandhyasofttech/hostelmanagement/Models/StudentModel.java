@@ -5,68 +5,154 @@ public class StudentModel {
     private String id;
     private String name;
     private String phone;
-    private String room;
-    private String joiningDate;
-    private String photoUrl;
-    private boolean active;
-
+    private String parentName;
+    private String parentPhone;
     private String address;
+    private String room;
+    private String studentClass;
+    private String joiningDate;
+
     private int annualFee;
     private int paidFee;
     private int remainingFee;
-    private String parentName;
-    private String parentPhone;
 
-    // NEW FIELDS MUST MATCH FIREBASE KEYS
-    private String studentClass;
-    private String panNumber;
-    private String aadhaarNumber;
-    private String panPhotoUrl;
+    private boolean active;
+
+    private String photoUrl;
     private String aadhaarPhotoUrl;
+    private String panPhotoUrl;
 
-    public StudentModel() {}
+    // Empty constructor required for Firebase
+    public StudentModel() {
+    }
 
-    // GETTERS
-    public String getId() { return id; }
-    public String getName() { return name; }
-    public String getPhone() { return phone; }
-    public String getRoom() { return room; }
-    public String getJoiningDate() { return joiningDate; }
-    public String getPhotoUrl() { return photoUrl; }
-    public boolean isActive() { return active; }
+    // Getters & Setters  (all)
 
-    public String getAddress() { return address; }
-    public int getAnnualFee() { return annualFee; }
-    public int getPaidFee() { return paidFee; }
-    public int getRemainingFee() { return remainingFee; }
-    public String getParentName() { return parentName; }
-    public String getParentPhone() { return parentPhone; }
+    public String getId() {
+        return id;
+    }
 
-    public String getStudentClass() { return studentClass; }
-    public String getPanNumber() { return panNumber; }
-    public String getAadhaarNumber() { return aadhaarNumber; }
-    public String getPanPhotoUrl() { return panPhotoUrl; }
-    public String getAadhaarPhotoUrl() { return aadhaarPhotoUrl; }
+    public void setId(String id) {
+        this.id = id;
+    }
 
-    // SETTERS
-    public void setId(String id) { this.id = id; }
-    public void setName(String name) { this.name = name; }
-    public void setPhone(String phone) { this.phone = phone; }
-    public void setRoom(String room) { this.room = room; }
-    public void setJoiningDate(String joiningDate) { this.joiningDate = joiningDate; }
-    public void setPhotoUrl(String photoUrl) { this.photoUrl = photoUrl; }
-    public void setActive(boolean active) { this.active = active; }
+    public String getName() {
+        return name;
+    }
 
-    public void setAddress(String address) { this.address = address; }
-    public void setAnnualFee(int annualFee) { this.annualFee = annualFee; }
-    public void setPaidFee(int paidFee) { this.paidFee = paidFee; }
-    public void setRemainingFee(int remainingFee) { this.remainingFee = remainingFee; }
-    public void setParentName(String parentName) { this.parentName = parentName; }
-    public void setParentPhone(String parentPhone) { this.parentPhone = parentPhone; }
+    public void setName(String name) {
+        this.name = name;
+    }
 
-    public void setStudentClass(String studentClass) { this.studentClass = studentClass; }
-    public void setPanNumber(String panNumber) { this.panNumber = panNumber; }
-    public void setAadhaarNumber(String aadhaarNumber) { this.aadhaarNumber = aadhaarNumber; }
-    public void setPanPhotoUrl(String panPhotoUrl) { this.panPhotoUrl = panPhotoUrl; }
-    public void setAadhaarPhotoUrl(String aadhaarPhotoUrl) { this.aadhaarPhotoUrl = aadhaarPhotoUrl; }
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getParentName() {
+        return parentName;
+    }
+
+    public void setParentName(String parentName) {
+        this.parentName = parentName;
+    }
+
+    public String getParentPhone() {
+        return parentPhone;
+    }
+
+    public void setParentPhone(String parentPhone) {
+        this.parentPhone = parentPhone;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getRoom() {
+        return room;
+    }
+
+    public void setRoom(String room) {
+        this.room = room;
+    }
+
+    public String getStudentClass() {
+        return studentClass;
+    }
+
+    public void setStudentClass(String studentClass) {
+        this.studentClass = studentClass;
+    }
+
+    public String getJoiningDate() {
+        return joiningDate;
+    }
+
+    public void setJoiningDate(String joiningDate) {
+        this.joiningDate = joiningDate;
+    }
+
+    public int getAnnualFee() {
+        return annualFee;
+    }
+
+    public void setAnnualFee(int annualFee) {
+        this.annualFee = annualFee;
+    }
+
+    public int getPaidFee() {
+        return paidFee;
+    }
+
+    public void setPaidFee(int paidFee) {
+        this.paidFee = paidFee;
+    }
+
+    public int getRemainingFee() {
+        return remainingFee;
+    }
+
+    public void setRemainingFee(int remainingFee) {
+        this.remainingFee = remainingFee;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
+    public String getPhotoUrl() {
+        return photoUrl;
+    }
+
+    public void setPhotoUrl(String photoUrl) {
+        this.photoUrl = photoUrl;
+    }
+
+    public String getAadhaarPhotoUrl() {
+        return aadhaarPhotoUrl;
+    }
+
+    public void setAadhaarPhotoUrl(String aadhaarPhotoUrl) {
+        this.aadhaarPhotoUrl = aadhaarPhotoUrl;
+    }
+
+    public String getPanPhotoUrl() {
+        return panPhotoUrl;
+    }
+
+    public void setPanPhotoUrl(String panPhotoUrl) {
+        this.panPhotoUrl = panPhotoUrl;
+    }
 }

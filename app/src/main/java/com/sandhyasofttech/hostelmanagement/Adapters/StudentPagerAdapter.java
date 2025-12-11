@@ -1,19 +1,18 @@
 package com.sandhyasofttech.hostelmanagement.Adapters;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.viewpager2.widget.ViewPager2;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.sandhyasofttech.hostelmanagement.Models.StudentModel;
 import com.sandhyasofttech.hostelmanagement.R;
 
 import java.util.ArrayList;
-import android.content.Context;
 
 public class StudentPagerAdapter extends RecyclerView.Adapter<StudentPagerAdapter.PageHolder> {
 
@@ -47,7 +46,7 @@ public class StudentPagerAdapter extends RecyclerView.Adapter<StudentPagerAdapte
         RecyclerView rv = holder.itemView.findViewById(pos == 0 ? R.id.rvActive : R.id.rvLeave);
         rv.setLayoutManager(new LinearLayoutManager(context));
 
-        StudentAdapter adapter = new StudentAdapter(context, pos == 0 ? activeList : leaveList);
+        StudentAdapter adapter = new StudentAdapter(context, pos == 0 ? activeList : leaveList, pos == 0);
         rv.setAdapter(adapter);
     }
 

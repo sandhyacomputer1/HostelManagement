@@ -10,5 +10,7 @@
     <!-- Availability badge colors -->
     <color name="room_available">#4CAF50</color>   <!-- green -->
     <color name="room_full">#F44336</color>
+    <color name="status_active_bg">#C8E6C9</color>
+    <color name="status_leave_bg">#FFCDD2</color>
 
 </resources>

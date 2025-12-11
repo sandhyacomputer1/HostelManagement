@@ -2,122 +2,84 @@ package com.sandhyasofttech.hostelmanagement.Adapters;
 
 import android.content.Context;
 import android.content.Intent;
-import android.view.*;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.PopupMenu;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.FirebaseDatabase;
-import com.sandhyasofttech.hostelmanagement.Activities.UpdateStudentActivity;
+import com.sandhyasofttech.hostelmanagement.Activities.StudentDetailActivity;
 import com.sandhyasofttech.hostelmanagement.Models.StudentModel;
 import com.sandhyasofttech.hostelmanagement.R;
 
 import java.util.ArrayList;
 
-public class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.StudentViewHolder> {
+public class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.ViewHolder> {
 
-    Context context;
-    ArrayList<StudentModel> list;
+    private final Context context;
+    private final ArrayList<StudentModel> studentList;
+    private final boolean isActiveList;
 
-    public StudentAdapter(Context context, ArrayList<StudentModel> list) {
+    public StudentAdapter(Context context, ArrayList<StudentModel> studentList, boolean isActiveList) {
         this.context = context;
-        this.list = list;
+        this.studentList = studentList;
+        this.isActiveList = isActiveList;
     }
 
     @NonNull
     @Override
-    public StudentViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new StudentViewHolder(LayoutInflater.from(context)
-                .inflate(R.layout.row_student, parent, false));
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(context).inflate(R.layout.row_student, parent, false);
+        return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull StudentViewHolder h, int pos) {
-        StudentModel m = list.get(pos);
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 
-        h.tvName.setText(m.getName());
-        h.tvRoom.setText("Room: " + m.getRoom());
-        h.tvPhone.setText(m.getPhone());
+        StudentModel student = studentList.get(position);
+
+        holder.tvName.setText(student.getName());
+        holder.tvRoom.setText("Room " + student.getRoom());
+        holder.tvClass.setText(student.getStudentClass());
+        holder.tvStatus.setText(student.isActive() ? "Active" : "Leave");
+        holder.tvFeeSummary.setText("Paid: " + student.getPaidFee() + " / " + student.getAnnualFee());
 
         Glide.with(context)
-                .load(m.getPhotoUrl())
-                .placeholder(R.drawable.ic_user)
-                .into(h.ivPhoto);
+                .load(student.getPhotoUrl())
+                .placeholder(R.drawable.ic_person_placeholder)
+                .error(R.drawable.ic_person_placeholder)
+                .into(holder.ivPhoto);
 
-        h.ivMenu.setOnClickListener(v -> {
-            PopupMenu menu = new PopupMenu(context, h.ivMenu);
-            menu.getMenu().add("Edit");
-            menu.getMenu().add("Delete");
-            menu.getMenu().add(m.isActive() ? "Mark as Leave" : "Mark as Active");
-
-            menu.setOnMenuItemClickListener(item -> {
-
-                String email = FirebaseAuth.getInstance().getCurrentUser().getEmail();
-                if(email == null) return false;
-
-                String safeEmail = email.replace(".", ",");
-
-                if (item.getTitle().equals("Edit")) {
-
-                    Intent i = new Intent(context, UpdateStudentActivity.class);
-                    i.putExtra("id", m.getId());
-                    context.startActivity(i);
-
-                }
-                else if (item.getTitle().equals("Delete")) {
-
-                    FirebaseDatabase.getInstance().getReference("HostelManagement")
-                            .child(safeEmail)
-                            .child("Students")
-                            .child(m.getId())
-                            .removeValue();
-
-                }
-                else {
-
-                    boolean newStatus = !m.isActive(); // toggle
-                    m.setActive(newStatus); // VERY IMPORTANT 🔥
-
-                    FirebaseDatabase.getInstance().getReference("HostelManagement")
-                            .child(safeEmail)
-                            .child("Students")
-                            .child(m.getId())
-                            .child("active")
-                            .setValue(newStatus);
-                }
-
-                return true;
-            });
-
-
-            menu.show();
+        holder.itemView.setOnClickListener(v -> {
+            Intent intent = new Intent(context, StudentDetailActivity.class);
+            intent.putExtra("student_id", student.getId());
+            context.startActivity(intent);
         });
     }
-    public void updateList(ArrayList<StudentModel> newList) {
-        this.list = newList;
-        notifyDataSetChanged();
-    }
-
 
     @Override
-    public int getItemCount() { return list.size(); }
+    public int getItemCount() {
+        return studentList == null ? 0 : studentList.size();
+    }
 
-    class StudentViewHolder extends RecyclerView.ViewHolder {
-        ImageView ivPhoto, ivMenu;
-        TextView tvName, tvRoom, tvPhone;
+    static class ViewHolder extends RecyclerView.ViewHolder {
 
-        public StudentViewHolder(@NonNull View v) {
-            super(v);
-            ivPhoto = v.findViewById(R.id.ivStudentPhoto);
-            ivMenu = v.findViewById(R.id.ivMenu);
-            tvName = v.findViewById(R.id.tvStudentName);
-            tvRoom = v.findViewById(R.id.tvStudentRoom);
-            tvPhone = v.findViewById(R.id.tvStudentPhone);
+        ImageView ivPhoto;
+        TextView tvName, tvRoom, tvClass, tvStatus, tvFeeSummary;
+
+        public ViewHolder(@NonNull View itemView) {
+            super(itemView);
+
+            ivPhoto = itemView.findViewById(R.id.ivStudentPhoto);
+            tvName = itemView.findViewById(R.id.tvStudentName);
+            tvRoom = itemView.findViewById(R.id.tvRoom);
+            tvClass = itemView.findViewById(R.id.tvClass);
+            tvStatus = itemView.findViewById(R.id.tvStatus);
+            tvFeeSummary = itemView.findViewById(R.id.tvFeeSummary);
         }
     }
 }
