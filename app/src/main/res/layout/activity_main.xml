@@ -263,6 +263,8 @@
                             android:layout_marginStart="6dp"
                             app:cardCornerRadius="12dp"
                             app:cardElevation="0dp"
+                            app:strokeWidth="1dp"
+                            app:strokeColor="#FED7AA"
                             app:cardBackgroundColor="@android:color/white">
 
                             <LinearLayout
@@ -447,6 +449,9 @@
                             android:layout_marginEnd="6dp"
                             app:cardCornerRadius="12dp"
                             app:cardElevation="0dp"
+                            app:strokeWidth="1dp"
+                            app:strokeColor="#E0E7FF"
+                            app:cardBackgroundColor="#EEF2FF"
                             android:clickable="true"
                             android:focusable="true"
                             android:foreground="?attr/selectableItemBackground">
@@ -470,6 +475,7 @@
                                     android:text="Add Student"
                                     android:textSize="12sp"
                                     android:textStyle="bold"
+                                    android:textColor="#4338CA"
                                     android:layout_marginTop="4dp"/>
                             </LinearLayout>
                         </com.google.android.material.card.MaterialCardView>
@@ -483,6 +489,9 @@
                             android:layout_marginStart="6dp"
                             app:cardCornerRadius="12dp"
                             app:cardElevation="0dp"
+                            app:strokeWidth="1dp"
+                            app:strokeColor="#D1FAE5"
+                            app:cardBackgroundColor="#ECFDF5"
                             android:clickable="true"
                             android:focusable="true"
                             android:foreground="?attr/selectableItemBackground">
@@ -506,6 +515,7 @@
                                     android:text="Collect Fees"
                                     android:textSize="12sp"
                                     android:textStyle="bold"
+                                    android:textColor="#047857"
                                     android:layout_marginTop="4dp"/>
                             </LinearLayout>
                         </com.google.android.material.card.MaterialCardView>
@@ -527,6 +537,9 @@
                             android:layout_marginEnd="6dp"
                             app:cardCornerRadius="12dp"
                             app:cardElevation="0dp"
+                            app:strokeWidth="1dp"
+                            app:strokeColor="#FED7AA"
+                            app:cardBackgroundColor="#FFF7ED"
                             android:clickable="true"
                             android:focusable="true"
                             android:foreground="?attr/selectableItemBackground">
@@ -550,6 +563,7 @@
                                     android:text="Fee History"
                                     android:textSize="12sp"
                                     android:textStyle="bold"
+                                    android:textColor="#C2410C"
                                     android:layout_marginTop="4dp"/>
                             </LinearLayout>
                         </com.google.android.material.card.MaterialCardView>
@@ -563,6 +577,9 @@
                             android:layout_marginStart="6dp"
                             app:cardCornerRadius="12dp"
                             app:cardElevation="0dp"
+                            app:strokeWidth="1dp"
+                            app:strokeColor="#E9D5FF"
+                            app:cardBackgroundColor="#FAF5FF"
                             android:clickable="true"
                             android:focusable="true"
                             android:foreground="?attr/selectableItemBackground">
@@ -586,6 +603,7 @@
                                     android:text="Students List"
                                     android:textSize="12sp"
                                     android:textStyle="bold"
+                                    android:textColor="#7C3AED"
                                     android:layout_marginTop="4dp"/>
                             </LinearLayout>
                         </com.google.android.material.card.MaterialCardView>
@@ -610,7 +628,6 @@
             android:src="@drawable/ic_add"
             app:backgroundTint="#3F51B5"
             app:tint="@android:color/white" />
-
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 

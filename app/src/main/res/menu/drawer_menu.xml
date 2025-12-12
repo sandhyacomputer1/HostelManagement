@@ -1,38 +1,97 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item
-        android:id="@+id/menuAddStudent"
-        android:title="Add Student"
-        android:icon="@drawable/ic_user" />
+    <!-- Main Menu Items -->
+    <group android:id="@+id/group_main">
 
-    <item
-        android:id="@+id/menuStudents"
-        android:title="View Students"
-        android:icon="@drawable/ic_user" />
+        <item
+            android:id="@+id/menuDashboard"
+            android:title="Dashboard"
+            android:icon="@drawable/ic_dashboard" />
 
-    <item
-        android:id="@+id/menuCollectFees"
-        android:title="Collect Fees"
-        android:icon="@drawable/ic_user" />
+        <item
+            android:id="@+id/menuAddStudent"
+            android:title="Add Student"
+            android:icon="@drawable/ic_user_add" />
 
-    <item
-        android:id="@+id/menuCollectFeesHistory"
-        android:title="Fee History"
-        android:icon="@drawable/ic_document" />
-    <!-- Add to activity_main_drawer.xml -->
-    <item
-        android:id="@+id/menuExpenses"
-        android:title="Expenses" />
-    <item
-        android:id="@+id/menuRooms"
-        android:title="Rooms" />
+        <item
+            android:id="@+id/menuStudents"
+            android:title="View Students"
+            android:icon="@drawable/ic_users" />
 
-    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/menuRooms"
+            android:title="Manage Rooms"
+            android:icon="@drawable/ic_door" />
+
+    </group>
+
+    <!-- Financial Section -->
+    <group android:id="@+id/group_financial">
+
+        <item android:title="Financial">
+            <menu>
+                <item
+                    android:id="@+id/menuCollectFees"
+                    android:title="Collect Fees"
+                    android:icon="@drawable/ic_money" />
+
+                <item
+                    android:id="@+id/menuCollectFeesHistory"
+                    android:title="Fee History"
+                    android:icon="@drawable/ic_history" />
+
+                <item
+                    android:id="@+id/menuExpenses"
+                    android:title="Expenses"
+                    android:icon="@drawable/ic_expense" />
+            </menu>
+        </item>
+
+    </group>
+
+    <!-- Reports Section -->
+    <group android:id="@+id/group_reports">
+
+        <item android:title="Reports &amp; Analytics">
+            <menu>
+                <item
+                    android:id="@+id/menuReports"
+                    android:title="Monthly Report"
+                    android:icon="@drawable/ic_report" />
+
+                <item
+                    android:id="@+id/menuAnalytics"
+                    android:title="Analytics"
+                    android:icon="@drawable/ic_analytics" />
+            </menu>
+        </item>
+
+    </group>
+
+    <!-- Settings & Account Section -->
+    <group android:id="@+id/group_settings" android:checkableBehavior="single">
+
+        <item
+            android:id="@+id/menuSettings"
+            android:title="Settings"
+            android:icon="@drawable/ic_settings" />
+
+        <item
+            android:id="@+id/menuProfile"
+            android:title="Profile"
+            android:icon="@drawable/ic_profile" />
+
+        <item
+            android:id="@+id/menuAbout"
+            android:title="About"
+            android:icon="@drawable/ic_info" />
+
         <item
             android:id="@+id/menuLogout"
             android:title="Logout"
-            android:icon="@drawable/ic_document" />
+            android:icon="@drawable/ic_logout" />
+
     </group>
 
 </menu>

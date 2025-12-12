@@ -1,244 +1,396 @@
+<?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp"
-    android:background="#F6F8FB">
+    android:background="#F5F7FA"
+    android:fillViewport="true">
 
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
-        <!-- Header -->
-        <TextView
-            android:id="@+id/tvHeader"
+        <!-- Custom Header with Back Button -->
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Collect Fees"
-            android:textSize="22sp"
-            android:textStyle="bold"
-            android:textColor="#1E293B"
-            android:paddingBottom="4dp" />
+            android:background="@drawable/header_gradient"
+            android:elevation="4dp"
+            android:padding="16dp">
 
-        <TextView
-            android:id="@+id/tvSubHeader"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Record payments against hostel students"
-            android:textSize="13sp"
-            android:textColor="#6B7280" />
+            <ImageView
+                android:id="@+id/ivBack"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:background="@drawable/bg_back_button"
+                android:padding="10dp"
+                android:src="@drawable/ic_back_arrow"
+                android:contentDescription="Back"
+                android:clickable="true"
+                android:focusable="true" />
 
-        <!-- Card -->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_toEndOf="@id/ivBack"
+                android:layout_toStartOf="@+id/ivPlaceholder"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Collect Fees"
+                    android:textColor="#FFFFFF"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Record student payments"
+                    android:textColor="#E0E7FF"
+                    android:textSize="12sp" />
+            </LinearLayout>
+
+            <!-- Placeholder for symmetry -->
+            <View
+                android:id="@+id/ivPlaceholder"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_alignParentEnd="true" />
+
+        </RelativeLayout>
+
+        <!-- Main Content -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:padding="16dp"
-            android:background="@drawable/bg_card"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:padding="16dp">
 
-            <!-- Student selection -->
-            <TextView
+            <!-- Student Selection Card -->
+            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Student"
-                android:textSize="13sp"
-                android:textColor="#4B5563"
-                android:paddingBottom="4dp" />
+                android:layout_marginBottom="16dp"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="2dp"
+                app:cardUseCompatPadding="true">
 
-            <Spinner
-                android:id="@+id/spStudents"
-                android:layout_width="match_parent"
-                android:layout_height="44dp"
-                android:background="@drawable/rounded_edittext"
-                android:paddingLeft="12dp"
-                android:paddingRight="12dp" />
-
-            <TextView
-                android:id="@+id/tvEmptyState"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="No students found. Please add a student first."
-                android:textColor="#9CA3AF"
-                android:textSize="13sp"
-                android:paddingTop="6dp"
-                android:visibility="gone" />
-
-            <!-- Fee summary -->
-            <!-- Fee summary -->
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Fee Summary"
-                android:textSize="13sp"
-                android:textColor="#4B5563"
-                android:layout_marginTop="16dp"
-                android:paddingBottom="4dp" />
-
-            <!-- Summary row: Total / Paid / Remaining -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:weightSum="3">
-
-                <!-- Total -->
                 <LinearLayout
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Total"
-                        android:textSize="11sp"
-                        android:textColor="#6B7280" />
-
-                    <TextView
-                        android:id="@+id/tvTotalFee"
-                        android:layout_width="match_parent"
-                        android:layout_height="40dp"
-                        android:gravity="center_vertical"
-                        android:paddingHorizontal="10dp"
-                        android:text="₹ 0"
-                        android:background="@drawable/rounded_edittext"
-                        android:textSize="14sp" />
-                </LinearLayout>
-
-                <!-- Paid -->
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:orientation="vertical"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginEnd="8dp">
+                    android:padding="16dp">
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Paid"
-                        android:textSize="11sp"
-                        android:textColor="#6B7280" />
+                        android:text="Select Student"
+                        android:textColor="#1E293B"
+                        android:textSize="14sp"
+                        android:textStyle="bold"
+                        android:drawableStart="@drawable/ic_student"
+                        android:drawablePadding="8dp"
+                        android:paddingBottom="8dp" />
+
+                    <Spinner
+                        android:id="@+id/spStudents"
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp"
+                        android:background="@drawable/spinner_background"
+                        android:paddingStart="12dp"
+                        android:paddingEnd="12dp" />
 
                     <TextView
-                        android:id="@+id/tvPaidFee"
+                        android:id="@+id/tvEmptyState"
                         android:layout_width="match_parent"
-                        android:layout_height="40dp"
-                        android:gravity="center_vertical"
-                        android:paddingHorizontal="10dp"
-                        android:text="₹ 0"
-                        android:background="@drawable/rounded_edittext"
-                        android:textSize="14sp" />
-                </LinearLayout>
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:drawableTop="@drawable/ic_empty_students"
+                        android:drawablePadding="8dp"
+                        android:gravity="center"
+                        android:padding="24dp"
+                        android:text="No students found\nPlease add students first to collect fees"
+                        android:textColor="#64748B"
+                        android:textSize="14sp"
+                        android:visibility="gone" />
 
-                <!-- Remaining -->
-                <LinearLayout
-                    android:layout_width="0dp"
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- Fee Details Card -->
+            <LinearLayout
+                android:id="@+id/llFeeDetails"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="visible">
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
+                    android:layout_marginBottom="16dp"
+                    app:cardCornerRadius="12dp"
+                    app:cardElevation="2dp"
+                    app:cardUseCompatPadding="true">
 
-                    <TextView
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Remaining"
-                        android:textSize="11sp"
-                        android:textColor="#6B7280" />
+                        android:orientation="vertical"
+                        android:padding="16dp">
 
-                    <TextView
-                        android:id="@+id/tvRemainingFee"
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Fee Summary"
+                            android:textColor="#1E293B"
+                            android:textSize="14sp"
+                            android:textStyle="bold"
+                            android:drawableStart="@drawable/ic_money"
+                            android:drawablePadding="8dp"
+                            android:paddingBottom="12dp" />
+
+                        <!-- Fee Summary Row -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:weightSum="3">
+
+                            <!-- Total Fee -->
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:layout_marginEnd="6dp"
+                                android:background="@drawable/bg_fee_box_total"
+                                android:orientation="vertical"
+                                android:padding="12dp">
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:text="Total"
+                                    android:textColor="#64748B"
+                                    android:textSize="11sp" />
+
+                                <TextView
+                                    android:id="@+id/tvTotalFee"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="4dp"
+                                    android:text="₹ 0"
+                                    android:textColor="#1E293B"
+                                    android:textSize="16sp"
+                                    android:textStyle="bold" />
+                            </LinearLayout>
+
+                            <!-- Paid Fee -->
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:layout_marginStart="3dp"
+                                android:layout_marginEnd="3dp"
+                                android:background="@drawable/bg_fee_box_paid"
+                                android:orientation="vertical"
+                                android:padding="12dp">
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:text="Paid"
+                                    android:textColor="#64748B"
+                                    android:textSize="11sp" />
+
+                                <TextView
+                                    android:id="@+id/tvPaidFee"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="4dp"
+                                    android:text="₹ 0"
+                                    android:textColor="#059669"
+                                    android:textSize="16sp"
+                                    android:textStyle="bold" />
+                            </LinearLayout>
+
+                            <!-- Remaining Fee -->
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:layout_marginStart="6dp"
+                                android:background="@drawable/remaining_fee_bg"
+                                android:orientation="vertical"
+                                android:padding="12dp">
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:text="Remaining"
+                                    android:textColor="#64748B"
+                                    android:textSize="11sp" />
+
+                                <TextView
+                                    android:id="@+id/tvRemainingFee"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="4dp"
+                                    android:text="₹ 0"
+                                    android:textColor="#DC2626"
+                                    android:textSize="16sp"
+                                    android:textStyle="bold" />
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+
+                <!-- Payment Details Card -->
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    app:cardCornerRadius="12dp"
+                    app:cardElevation="2dp"
+                    app:cardUseCompatPadding="true">
+
+                    <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="40dp"
-                        android:gravity="center_vertical"
-                        android:paddingHorizontal="10dp"
-                        android:text="₹ 0"
-                        android:background="@drawable/rounded_edittext"
-                        android:textSize="14sp" />
-                </LinearLayout>
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="16dp">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Payment Details"
+                            android:textColor="#1E293B"
+                            android:textSize="14sp"
+                            android:textStyle="bold"
+                            android:drawableStart="@drawable/ic_payment"
+                            android:drawablePadding="8dp"
+                            android:paddingBottom="12dp" />
+
+                        <!-- Amount Input -->
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Amount to Collect"
+                            android:textColor="#475569"
+                            android:textSize="13sp"
+                            android:paddingBottom="6dp" />
+
+                        <EditText
+                            android:id="@+id/etAmount"
+                            android:layout_width="match_parent"
+                            android:layout_height="50dp"
+                            android:background="@drawable/edittext_background"
+                            android:hint="Enter amount"
+                            android:inputType="number"
+                            android:maxLength="7"
+                            android:paddingStart="16dp"
+                            android:paddingEnd="16dp"
+                            android:textColor="#1E293B"
+                            android:textSize="15sp" />
+
+                        <!-- Payment Mode -->
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="16dp"
+                            android:text="Payment Mode"
+                            android:textColor="#475569"
+                            android:textSize="13sp"
+                            android:paddingBottom="6dp" />
+
+                        <Spinner
+                            android:id="@+id/spPaymentType"
+                            android:layout_width="match_parent"
+                            android:layout_height="50dp"
+                            android:background="@drawable/spinner_background"
+                            android:entries="@array/payment_mode"
+                            android:paddingStart="12dp"
+                            android:paddingEnd="12dp" />
+
+                        <!-- QR Code Display -->
+                        <androidx.cardview.widget.CardView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginTop="16dp"
+                            app:cardCornerRadius="12dp"
+                            app:cardElevation="4dp">
+
+                            <ImageView
+                                android:id="@+id/ivQR"
+                                android:layout_width="200dp"
+                                android:layout_height="200dp"
+                                android:padding="8dp"
+                                android:scaleType="centerCrop"
+                                android:src="@drawable/default_qr"
+                                android:contentDescription="QR Code"
+                                android:visibility="gone" />
+                        </androidx.cardview.widget.CardView>
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:gravity="center"
+                            android:text="Long press QR to change"
+                            android:textColor="#94A3B8"
+                            android:textSize="11sp"
+                            android:visibility="gone"
+                            android:id="@+id/tvQRHint" />
+
+                        <!-- Remarks -->
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="16dp"
+                            android:text="Remarks (Optional)"
+                            android:textColor="#475569"
+                            android:textSize="13sp"
+                            android:paddingBottom="6dp" />
+
+                        <EditText
+                            android:id="@+id/etRemarks"
+                            android:layout_width="match_parent"
+                            android:layout_height="50dp"
+                            android:background="@drawable/edittext_background"
+                            android:hint="Add notes..."
+                            android:inputType="textCapSentences"
+                            android:maxLength="100"
+                            android:paddingStart="16dp"
+                            android:paddingEnd="16dp"
+                            android:textColor="#1E293B"
+                            android:textSize="15sp" />
+
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+
+                <!-- Collect Fee Button -->
+                <Button
+                    android:id="@+id/btnCollectFee"
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    android:background="@drawable/button_collect_fee"
+                    android:text="Collect Fee"
+                    android:textColor="#FFFFFF"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:elevation="4dp" />
 
             </LinearLayout>
-
-            <!-- Amount to collect -->
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Amount to collect (will reduce Remaining)"
-                android:textSize="13sp"
-                android:textColor="#4B5563"
-                android:layout_marginTop="16dp"
-                android:paddingBottom="4dp" />
-
-            <EditText
-                android:id="@+id/etAmount"
-                android:layout_width="match_parent"
-                android:layout_height="44dp"
-                android:hint="Enter amount to collect"
-                android:background="@drawable/rounded_edittext"
-                android:paddingHorizontal="10dp"
-                android:inputType="number" />
-
-
-            <!-- Payment mode -->
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Payment mode"
-                android:textSize="13sp"
-                android:textColor="#4B5563"
-                android:layout_marginTop="16dp"
-                android:paddingBottom="4dp" />
-
-            <Spinner
-                android:id="@+id/spPaymentType"
-                android:layout_width="match_parent"
-                android:layout_height="44dp"
-                android:background="@drawable/rounded_edittext"
-                android:entries="@array/payment_mode" />
-
-            <!-- QR -->
-            <ImageView
-                android:id="@+id/ivQR"
-                android:layout_width="200dp"
-                android:layout_height="200dp"
-                android:layout_marginTop="16dp"
-                android:layout_gravity="center_horizontal"
-                android:padding="8dp"
-                android:src="@drawable/default_qr"
-                android:scaleType="centerCrop"
-                android:visibility="gone" />
-
-            <!-- Remarks -->
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Remarks"
-                android:textSize="13sp"
-                android:textColor="#4B5563"
-                android:layout_marginTop="16dp"
-                android:paddingBottom="4dp" />
-
-            <EditText
-                android:id="@+id/etRemarks"
-                android:layout_width="match_parent"
-                android:layout_height="44dp"
-                android:hint="Optional"
-                android:background="@drawable/rounded_edittext"
-                android:paddingHorizontal="10dp" />
-
-            <!-- Button -->
-            <Button
-                android:id="@+id/btnCollectFee"
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:text="Collect Fee"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                android:layout_marginTop="20dp"
-                android:background="@drawable/rounded_button_blue"
-                android:textColor="#FFFFFF" />
 
         </LinearLayout>
 
