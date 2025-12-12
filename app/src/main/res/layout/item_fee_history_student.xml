@@ -1,46 +1,59 @@
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="8dp"
+    android:layout_margin="5dp"
+    app:cardCornerRadius="10dp"
+    app:cardElevation="4dp"
+    app:cardBackgroundColor="@android:color/white"
     android:foreground="?attr/selectableItemBackground"
     android:clickable="true"
     android:focusable="true"
-    android:elevation="2dp">
+    app:strokeColor="#E5E7EB"
+    app:strokeWidth="0.5dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:padding="12dp">
+        android:padding="10dp"
+        android:minHeight="72dp">
 
-        <!-- Left: info -->
+        <!-- Left: Compact info section -->
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:orientation="vertical"
-            android:layout_weight="1">
+            android:layout_marginEnd="12dp">
 
+            <!-- Name & Room - Combined for compactness -->
             <TextView
                 android:id="@+id/tvNameRoom"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Student Name (Room)"
-                android:textSize="15sp"
-                android:textStyle="bold"
-                android:textColor="#111827" />
+                android:textSize="17dp"
+                android:maxLines="1"
+                android:ellipsize="end" />
 
+            <!-- Class - Smaller, lighter -->
             <TextView
                 android:id="@+id/tvClass"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Class"
-                android:textSize="12sp"
-                android:textColor="#6B7280"
-                android:paddingBottom="4dp" />
+                android:textAppearance="?attr/textAppearanceBodySmall"
+                android:textColor="?attr/colorOnSurfaceVariant"
+                android:layout_marginTop="2dp" />
 
+            <!-- Compact payment metrics row -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
                 android:orientation="horizontal"
                 android:weightSum="3">
 
@@ -50,8 +63,8 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Total: ₹0"
-                    android:textSize="13sp"
-                    android:textColor="#374151" />
+                    android:textAppearance="?attr/textAppearanceBodyMedium"
+                    android:textColor="?attr/colorOnSurface" />
 
                 <TextView
                     android:id="@+id/tvCardPaid"
@@ -59,8 +72,9 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Paid: ₹0"
-                    android:textSize="13sp"
-                    android:textColor="#16A34A" />
+                    android:textAppearance="?attr/textAppearanceBodyMedium"
+                    android:textColor="#10B981"
+                    android:layout_marginStart="8dp" />
 
                 <TextView
                     android:id="@+id/tvCardRemain"
@@ -68,24 +82,30 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Remain: ₹0"
-                    android:textSize="13sp"
-                    android:textColor="#DC2626"
+                    android:textAppearance="?attr/textAppearanceBodyMedium"
+                    android:textColor="#EF4444"
                     android:gravity="end" />
             </LinearLayout>
         </LinearLayout>
 
-        <!-- Right: PDF button -->
-        <Button
+        <!-- Right: Modern PDF button -->
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/btnStudentPdf"
+            style="@style/Widget.Material3.Button.OutlinedButton"
             android:layout_width="wrap_content"
-            android:layout_height="36dp"
-            android:text="PDF"
-            android:textSize="12sp"
-            android:textStyle="bold"
-            android:paddingHorizontal="12dp"
-            android:background="@drawable/rounded_button_blue"
-            android:textColor="#FFFFFF" />
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:visibility="gone"
+            app:icon="@drawable/ic_report"
+            app:iconTint="?attr/colorOnSecondaryContainer"
+            app:iconPadding="4dp"
+            app:cornerRadius="20dp"
+            android:layout_gravity="center_vertical"
+            android:insetTop="0dp"
+            android:insetBottom="0dp"
+            android:insetLeft="0dp"
+            android:insetRight="0dp" />
 
     </LinearLayout>
 
-</androidx.cardview.widget.CardView>
+</com.google.android.material.card.MaterialCardView>

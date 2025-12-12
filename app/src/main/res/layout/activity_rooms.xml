@@ -1,41 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:padding="12dp"
-    android:fitsSystemWindows="true"
-    android:background="@color/room_screen_bg"
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:background="@color/room_screen_bg">
 
-    <com.google.android.material.appbar.MaterialToolbar
-        android:id="@+id/toolbar"
-        android:title="Rooms"
+    <!-- AppBar with back arrow -->
+    <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?attr/colorPrimary"
-        android:titleTextColor="@android:color/white"
-        android:elevation="4dp" />
+        android:theme="@style/ThemeOverlay.Material3.Dark.ActionBar"
+        android:elevation="4dp">
 
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar"
+            style="@style/Widget.Material3.Toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            app:title="Rooms"
+            app:titleCentered="true"
+            app:titleTextColor="@android:color/white"
+            app:navigationIcon="@drawable/ic_backk"
+            android:background="@color/blue1"
+            />
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <!-- Content -->
     <LinearLayout
         android:orientation="vertical"
-        android:layout_marginTop="64dp"
+        android:paddingHorizontal="10dp"
+        android:layout_marginTop="60dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <androidx.appcompat.widget.SearchView
-            android:id="@+id/searchView"
+        <!-- Search card -->
+        <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:iconifiedByDefault="false"
-            android:queryHint="Search by room no or type"
-            android:background="@android:color/white"
-            android:padding="4dp" />
+            android:layout_marginBottom="8dp"
+            app:cardElevation="2dp"
+            app:cardUseCompatPadding="true"
+            app:cardBackgroundColor="@android:color/white">
 
+            <androidx.appcompat.widget.SearchView
+                android:id="@+id/searchView"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:iconifiedByDefault="false"
+                android:queryHint="Search by room no or type"
+                 />
+        </androidx.cardview.widget.CardView>
+
+        <!-- Rooms grid -->
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvRooms"
-            android:layout_marginTop="8dp"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:clipToPadding="false"
+            android:paddingBottom="8dp" />
 
     </LinearLayout>
 
@@ -46,7 +71,9 @@
         android:layout_gravity="end|bottom"
         android:layout_margin="16dp"
         android:contentDescription="Add Room"
-        android:tint="@android:color/white"
+        app:tint="@android:color/white"
+        app:backgroundTint="@color/blue"
         android:src="@drawable/ic_add" />
+
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

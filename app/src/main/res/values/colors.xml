@@ -3,6 +3,8 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="blue">#112CC7</color>
+    <color name="blue1">#5B9FED</color>
+
     <color name="gray">#656F6E</color>
 
     <color name="room_screen_bg">#F4F6FB</color>

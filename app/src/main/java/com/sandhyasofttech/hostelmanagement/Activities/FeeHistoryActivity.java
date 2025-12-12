@@ -5,21 +5,25 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-import com.sandhyasofttech.hostelmanagement.R;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.*;
 import com.sandhyasofttech.hostelmanagement.Adapters.FeeHistoryAdapter;
 import com.sandhyasofttech.hostelmanagement.Models.StudentModel;
+import com.sandhyasofttech.hostelmanagement.R;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -30,9 +34,11 @@ import java.util.Locale;
 public class FeeHistoryActivity extends AppCompatActivity {
 
     private RecyclerView rvFees;
-    private EditText etSearch;
+    private TextInputEditText etSearch;
     private Button btnExportPdf;
     private TextView tvTotalCollected, tvTotalRemaining, tvTotalStudents, tvEmpty;
+    private LinearLayout layoutEmpty;
+    private FloatingActionButton fabAddFee;
 
     private DatabaseReference rootRef;
     private String safeEmail;
@@ -41,10 +47,21 @@ public class FeeHistoryActivity extends AppCompatActivity {
     private FeeHistoryAdapter adapter;
 
     @Override
-    protected void onCreate(Bundle b) {
-        super.onCreate(b);
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fee_history);
 
+        initViews();
+        setupToolbar();
+        setupRecyclerView();
+        initFirebase();
+        loadStudentsWithFees();
+        setupSearch();
+
+        btnExportPdf.setOnClickListener(v -> exportCurrentListToPdf());
+    }
+
+    private void initViews() {
         rvFees = findViewById(R.id.rvFees);
         etSearch = findViewById(R.id.etSearch);
         btnExportPdf = findViewById(R.id.btnExportPdf);
@@ -52,26 +69,49 @@ public class FeeHistoryActivity extends AppCompatActivity {
         tvTotalRemaining = findViewById(R.id.tvTotalRemaining);
         tvTotalStudents = findViewById(R.id.tvTotalStudents);
         tvEmpty = findViewById(R.id.tvEmpty);
+        layoutEmpty = findViewById(R.id.layoutEmpty);
+        fabAddFee = findViewById(R.id.fabAddFee);
 
+        // FAB click listener
+        fabAddFee.setOnClickListener(v -> {
+            Intent intent = new Intent(FeeHistoryActivity.this, CollectFeesActivity.class);
+            startActivity(intent);
+        });
+    }
+
+    private void setupToolbar() {
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setTitle("Fee History");
+        }
+    }
+
+    private void setupRecyclerView() {
         rvFees.setLayoutManager(new LinearLayoutManager(this));
         adapter = new FeeHistoryAdapter(list, this::exportSingleStudentPdf);
         rvFees.setAdapter(adapter);
+    }
 
-
+    private void initFirebase() {
         String email = FirebaseAuth.getInstance().getCurrentUser().getEmail();
+        if (email == null) {
+            Toast.makeText(this, "User not authenticated", Toast.LENGTH_SHORT).show();
+            finish();
+            return;
+        }
+
         safeEmail = email.replace(".", ",");
         rootRef = FirebaseDatabase.getInstance()
                 .getReference("HostelManagement")
                 .child(safeEmail);
-
-        loadStudentsWithFees();
-        setupSearch();
-        btnExportPdf.setOnClickListener(v -> exportCurrentListToPdf());
     }
 
     private void loadStudentsWithFees() {
         rootRef.child("Students").addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override public void onDataChange(DataSnapshot snapshot) {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
                 list.clear();
                 int totalCollected = 0;
                 int totalRemaining = 0;
@@ -86,27 +126,45 @@ public class FeeHistoryActivity extends AppCompatActivity {
                     }
                 }
 
-                // UPDATED: pass listener that calls exportSingleStudentPdf
+                // Update summary
+                tvTotalStudents.setText(String.valueOf(list.size()));
+                tvTotalCollected.setText("₹ " + formatAmount(totalCollected));
+                tvTotalRemaining.setText("₹ " + formatAmount(totalRemaining));
+
+                // Update adapter with new data
                 adapter = new FeeHistoryAdapter(list, FeeHistoryActivity.this::exportSingleStudentPdf);
                 rvFees.setAdapter(adapter);
 
-                tvTotalStudents.setText(String.valueOf(list.size()));
-                tvTotalCollected.setText("₹ " + totalCollected);
-                tvTotalRemaining.setText("₹ " + totalRemaining);
-
-                tvEmpty.setVisibility(list.isEmpty() ? View.VISIBLE : View.GONE);
+                // Empty state handling
+                if (list.isEmpty()) {
+                    layoutEmpty.setVisibility(View.VISIBLE);
+                    rvFees.setVisibility(View.GONE);
+                } else {
+                    layoutEmpty.setVisibility(View.GONE);
+                    rvFees.setVisibility(View.VISIBLE);
+                }
             }
-            @Override public void onCancelled(DatabaseError error) { }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                Toast.makeText(FeeHistoryActivity.this,
+                        "Failed to load data", Toast.LENGTH_SHORT).show();
+            }
         });
     }
 
     private void setupSearch() {
         etSearch.addTextChangedListener(new TextWatcher() {
-            @Override public void beforeTextChanged(CharSequence s, int st, int c, int a) {}
-            @Override public void onTextChanged(CharSequence s, int st, int b, int c) {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
                 adapter.getFilter().filter(s);
             }
-            @Override public void afterTextChanged(Editable s) {}
+
+            @Override
+            public void afterTextChanged(Editable s) {}
         });
     }
 
@@ -123,55 +181,85 @@ public class FeeHistoryActivity extends AppCompatActivity {
         try {
             pdf = new android.graphics.pdf.PdfDocument();
             android.graphics.Paint paint = new android.graphics.Paint();
+            android.graphics.Paint paintBold = new android.graphics.Paint();
+            paintBold.setFakeBoldText(true);
 
-            int pageWidth = 595;   // A4 approx
-            int pageHeight = 842;
+            int pageWidth = 595;   // A4 width
+            int pageHeight = 842;  // A4 height
 
             android.graphics.pdf.PdfDocument.PageInfo pageInfo =
                     new android.graphics.pdf.PdfDocument.PageInfo.Builder(pageWidth, pageHeight, 1).create();
             android.graphics.pdf.PdfDocument.Page page = pdf.startPage(pageInfo);
             android.graphics.Canvas canvas = page.getCanvas();
 
-            int y = 40;
+            int y = 50;
 
-            // Title
-            paint.setTextSize(18);
-            paint.setFakeBoldText(true);
-            canvas.drawText("Hostel Fee Report", 40, y, paint);
+            // Header
+            paintBold.setTextSize(22);
+            canvas.drawText("Fee History Report", 40, y, paintBold);
 
-            // Date
-            y += 22;
-            paint.setTextSize(11);
-            paint.setFakeBoldText(false);
+            y += 30;
+            paint.setTextSize(12);
             String date = new SimpleDateFormat("dd MMM yyyy, HH:mm", Locale.US).format(new Date());
-            canvas.drawText("Generated on: " + date, 40, y, paint);
+            canvas.drawText("Generated: " + date, 40, y, paint);
 
-            // Header row
-            y += 26;
-            paint.setFakeBoldText(true);
-            canvas.drawText("Name", 40, y, paint);
-            canvas.drawText("Room", 180, y, paint);
-            canvas.drawText("Total", 260, y, paint);
-            canvas.drawText("Paid", 340, y, paint);
-            canvas.drawText("Remain", 420, y, paint);
+            y += 35;
 
-            paint.setFakeBoldText(false);
+            // Summary section
+            paintBold.setTextSize(14);
+            canvas.drawText("Summary", 40, y, paintBold);
+            y += 20;
+
+            paint.setTextSize(11);
+            canvas.drawText("Total Students: " + data.size(), 50, y, paint);
             y += 16;
 
+            int totalCollected = 0, totalRemaining = 0;
             for (StudentModel s : data) {
-                if (y > pageHeight - 40) break; // single page
+                totalCollected += s.getPaidFee();
+                totalRemaining += s.getRemainingFee();
+            }
 
-                String name = s.getName() == null ? "" : s.getName();
-                String room = s.getRoom() == null ? "" : s.getRoom();
+            canvas.drawText("Total Collected: ₹ " + formatAmount(totalCollected), 50, y, paint);
+            y += 16;
+            canvas.drawText("Total Remaining: ₹ " + formatAmount(totalRemaining), 50, y, paint);
+
+            y += 30;
+
+            // Table Header
+            paintBold.setTextSize(11);
+            canvas.drawText("Name", 40, y, paintBold);
+            canvas.drawText("Room", 180, y, paintBold);
+            canvas.drawText("Total", 260, y, paintBold);
+            canvas.drawText("Paid", 340, y, paintBold);
+            canvas.drawText("Remaining", 420, y, paintBold);
+
+            y += 18;
+
+            // Draw header line
+            canvas.drawLine(40, y, 520, y, paint);
+            y += 12;
+
+            // Table rows
+            paint.setTextSize(10);
+            for (StudentModel s : data) {
+                if (y > pageHeight - 50) break; // Prevent overflow
+
+                String name = truncateText(safeText(s.getName()), 20);
+                String room = safeText(s.getRoom());
 
                 canvas.drawText(name, 40, y, paint);
                 canvas.drawText(room, 180, y, paint);
-                canvas.drawText(String.valueOf(s.getAnnualFee()), 260, y, paint);
-                canvas.drawText(String.valueOf(s.getPaidFee()), 340, y, paint);
-                canvas.drawText(String.valueOf(s.getRemainingFee()), 420, y, paint);
+                canvas.drawText("₹" + s.getAnnualFee(), 260, y, paint);
+                canvas.drawText("₹" + s.getPaidFee(), 340, y, paint);
+                canvas.drawText("₹" + s.getRemainingFee(), 420, y, paint);
 
                 y += 16;
             }
+
+            // Footer
+            paint.setTextSize(9);
+            canvas.drawText("Hostel Management System", 40, pageHeight - 30, paint);
 
             pdf.finishPage(page);
 
@@ -186,6 +274,8 @@ public class FeeHistoryActivity extends AppCompatActivity {
             fos = new java.io.FileOutputStream(file);
             pdf.writeTo(fos);
 
+            Toast.makeText(this, "PDF exported successfully", Toast.LENGTH_SHORT).show();
+
             // Open with PDF viewer
             Uri uri = androidx.core.content.FileProvider.getUriForFile(
                     this, getPackageName() + ".provider", file);
@@ -197,19 +287,27 @@ public class FeeHistoryActivity extends AppCompatActivity {
 
         } catch (Exception e) {
             e.printStackTrace();
-            Toast.makeText(this, "Failed to create/open PDF", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Failed to create PDF: " + e.getMessage(),
+                    Toast.LENGTH_SHORT).show();
         } finally {
             if (pdf != null) pdf.close();
             if (fos != null) {
-                try { fos.close(); } catch (Exception ignored) {}
+                try {
+                    fos.close();
+                } catch (Exception ignored) {}
             }
         }
     }
 
     private void exportSingleStudentPdf(StudentModel s) {
+        android.graphics.pdf.PdfDocument pdf = null;
+        java.io.FileOutputStream fos = null;
+
         try {
-            android.graphics.pdf.PdfDocument pdf = new android.graphics.pdf.PdfDocument();
+            pdf = new android.graphics.pdf.PdfDocument();
             android.graphics.Paint paint = new android.graphics.Paint();
+            android.graphics.Paint paintBold = new android.graphics.Paint();
+            paintBold.setFakeBoldText(true);
 
             int pageWidth = 595;
             int pageHeight = 842;
@@ -222,52 +320,65 @@ public class FeeHistoryActivity extends AppCompatActivity {
             int y = 60;
 
             // Title
-            paint.setTextSize(20);
-            paint.setFakeBoldText(true);
-            canvas.drawText("Student Fee Report", 40, y, paint);
+            paintBold.setTextSize(24);
+            canvas.drawText("Student Fee Report", 40, y, paintBold);
 
-            // Basic info section
-            y += 30;
-            paint.setTextSize(12);
-            paint.setFakeBoldText(false);
+            y += 40;
 
-            canvas.drawText("Name: " + safeText(s.getName()), 40, y, paint);
-            y += 18;
-            canvas.drawText("Room: " + safeText(s.getRoom()), 40, y, paint);
-            y += 18;
-            canvas.drawText("Class: " + safeText(s.getStudentClass()), 40, y, paint);
-            y += 18;
-            canvas.drawText("Joining Date: " + safeText(s.getJoiningDate()), 40, y, paint);
-            y += 24;
+            // Student Details Section
+            paintBold.setTextSize(16);
+            canvas.drawText("Student Information", 40, y, paintBold);
+            y += 25;
 
-            // Fee box
-            paint.setFakeBoldText(true);
-            canvas.drawText("Fee Details", 40, y, paint);
-            paint.setFakeBoldText(false);
+            paint.setTextSize(13);
+            canvas.drawText("Name: " + safeText(s.getName()), 50, y, paint);
             y += 20;
+            canvas.drawText("Room: " + safeText(s.getRoom()), 50, y, paint);
+            y += 20;
+            canvas.drawText("Class: " + safeText(s.getStudentClass()), 50, y, paint);
+            y += 20;
+            canvas.drawText("Contact: " + safeText(s.getPhone()), 50, y, paint);
+            y += 20;
+            canvas.drawText("Joining Date: " + safeText(s.getJoiningDate()), 50, y, paint);
 
-            canvas.drawText("Total Fee: ₹ " + s.getAnnualFee(), 60, y, paint);
-            y += 18;
-            canvas.drawText("Total Paid: ₹ " + s.getPaidFee(), 60, y, paint);
-            y += 18;
-            canvas.drawText("Remaining: ₹ " + s.getRemainingFee(), 60, y, paint);
-            y += 24;
+            y += 40;
+
+            // Fee Details Section
+            paintBold.setTextSize(16);
+            canvas.drawText("Fee Details", 40, y, paintBold);
+            y += 25;
+
+            paint.setTextSize(14);
+            canvas.drawText("Annual Fee: ₹ " + formatAmount(s.getAnnualFee()), 50, y, paint);
+            y += 22;
+            canvas.drawText("Total Paid: ₹ " + formatAmount(s.getPaidFee()), 50, y, paint);
+            y += 22;
+            paintBold.setTextSize(14);
+            canvas.drawText("Remaining: ₹ " + formatAmount(s.getRemainingFee()), 50, y, paintBold);
+
+            y += 40;
+
+            // Payment Status
+            String status = s.getRemainingFee() == 0 ? "Paid" : "Pending";
+            paint.setTextSize(12);
+            canvas.drawText("Status: " + status, 50, y, paint);
 
             // Footer
-            String date = new SimpleDateFormat("dd MMM yyyy, HH:mm", Locale.US).format(new Date());
             paint.setTextSize(10);
+            String date = new SimpleDateFormat("dd MMM yyyy, HH:mm", Locale.US).format(new Date());
             canvas.drawText("Generated on: " + date, 40, pageHeight - 40, paint);
+            canvas.drawText("Hostel Management System", 40, pageHeight - 25, paint);
 
             pdf.finishPage(page);
 
-            String fileName = "Student_Fee_" + safeText(s.getName()).replace(" ", "_")
+            String fileName = "Fee_" + safeText(s.getName()).replace(" ", "_")
                     + "_" + System.currentTimeMillis() + ".pdf";
             java.io.File dir = getExternalFilesDir(null);
             java.io.File file = new java.io.File(dir, fileName);
-            java.io.FileOutputStream fos = new java.io.FileOutputStream(file);
+            fos = new java.io.FileOutputStream(file);
             pdf.writeTo(fos);
-            pdf.close();
-            fos.close();
+
+            Toast.makeText(this, "Student PDF exported", Toast.LENGTH_SHORT).show();
 
             Uri uri = androidx.core.content.FileProvider.getUriForFile(
                     this, getPackageName() + ".provider", file);
@@ -278,12 +389,37 @@ public class FeeHistoryActivity extends AppCompatActivity {
 
         } catch (Exception e) {
             e.printStackTrace();
-            Toast.makeText(this, "Failed to create student PDF", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Failed to create PDF: " + e.getMessage(),
+                    Toast.LENGTH_SHORT).show();
+        } finally {
+            if (pdf != null) pdf.close();
+            if (fos != null) {
+                try {
+                    fos.close();
+                } catch (Exception ignored) {}
+            }
         }
     }
 
     private String safeText(String s) {
-        return s == null ? "" : s;
+        return s == null || s.trim().isEmpty() ? "N/A" : s;
     }
 
+    private String formatAmount(int amount) {
+        return String.format(Locale.US, "%,d", amount);
+    }
+
+    private String truncateText(String text, int maxLength) {
+        if (text.length() <= maxLength) return text;
+        return text.substring(0, maxLength - 3) + "...";
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 }

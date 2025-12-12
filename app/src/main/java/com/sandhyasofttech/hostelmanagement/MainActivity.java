@@ -355,7 +355,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             navigateToActivity(FeeHistoryActivity.class);
 
         } else if (itemId == R.id.menuExpenses) {
-            navigateToActivity(ExpenseEntryActivity.class);
+            navigateToActivity(ExpenseListActivity.class);
 
         } else if (itemId == R.id.menuReports) {
             Toast.makeText(this, "Reports - Coming Soon", Toast.LENGTH_SHORT).show();

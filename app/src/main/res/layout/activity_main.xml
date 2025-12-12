@@ -67,18 +67,18 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
                         android:orientation="horizontal"
-                        android:padding="16dp"
-                        android:gravity="center_vertical">
+                        android:padding="16dp">
 
                         <ImageView
                             android:id="@+id/ivToolbarLogo"
                             android:layout_width="48dp"
                             android:layout_height="48dp"
                             android:layout_marginEnd="12dp"
+                            android:contentDescription="logo"
                             android:scaleType="centerCrop"
-                            android:src="@drawable/ic_launcher_foreground"
-                            android:contentDescription="logo"/>
+                            android:src="@drawable/ic_launcher_foreground" />
 
                         <LinearLayout
                             android:layout_width="0dp"
@@ -90,32 +90,32 @@
                                 android:id="@+id/tvWelcomeSimple"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:alpha="0.95"
                                 android:text="Welcome 👋"
-                                android:textSize="12sp"
                                 android:textColor="#FFFFFF"
-                                android:alpha="0.95"/>
+                                android:textSize="12sp" />
 
                             <TextView
                                 android:id="@+id/tvToolbarHostelName"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Your Hostel"
-                                android:textSize="17sp"
-                                android:textStyle="bold"
-                                android:textColor="#FFFFFF"
                                 android:layout_marginTop="2dp"
+                                android:ellipsize="end"
                                 android:maxLines="1"
-                                android:ellipsize="end"/>
+                                android:text="Your Hostel"
+                                android:textColor="#FFFFFF"
+                                android:textSize="17sp"
+                                android:textStyle="bold" />
 
                             <TextView
                                 android:id="@+id/tvCurrentDate"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="December 11, 2025"
-                                android:textSize="11sp"
-                                android:textColor="#FFFFFF"
                                 android:layout_marginTop="2dp"
-                                android:alpha="0.85"/>
+                                android:alpha="0.85"
+                                android:text="December 11, 2025"
+                                android:textColor="#FFFFFF"
+                                android:textSize="11sp" />
 
                         </LinearLayout>
                     </LinearLayout>
