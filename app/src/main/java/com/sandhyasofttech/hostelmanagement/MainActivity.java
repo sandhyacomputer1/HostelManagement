@@ -1,191 +1,492 @@
+//package com.sandhyasofttech.hostelmanagement;
+//
+//import android.content.Intent;
+//import android.os.Bundle;
+//import android.widget.ImageView;
+//import android.widget.TextView;
+//
+//import androidx.annotation.NonNull;
+//import androidx.appcompat.app.ActionBarDrawerToggle;
+//import androidx.appcompat.app.AppCompatActivity;
+//import androidx.cardview.widget.CardView;
+//import androidx.drawerlayout.widget.DrawerLayout;
+//
+//import com.bumptech.glide.Glide;
+//import com.google.android.material.appbar.MaterialToolbar;
+//import com.google.android.material.navigation.NavigationView;
+//import com.google.firebase.auth.FirebaseAuth;
+//import com.google.firebase.auth.FirebaseUser;
+//import com.google.firebase.database.*;
+//import com.sandhyasofttech.hostelmanagement.Activities.*;
+//import com.sandhyasofttech.hostelmanagement.Models.StudentModel;
+//import com.sandhyasofttech.hostelmanagement.Registration.LoginActivity;
+//
+//import java.text.SimpleDateFormat;
+//import java.util.Date;
+//import java.util.HashSet;
+//import java.util.Locale;
+//
+//public class MainActivity extends AppCompatActivity {
+//
+//    private TextView tvToolbarHostelName, tvCurrentDate;
+//    private TextView tvTotalRooms, tvTotalStudentsDashboard, tvPendingFees;
+//    private TextView tvOccupiedRooms, tvAvailableRooms, tvTotalRevenue, tvPendingStudents;
+//    private ImageView ivToolbarLogo;
+//    private CardView cardAddStudent, cardCollectFees, cardFeeHistory, cardManageRooms;
+//
+//    private DrawerLayout drawerLayout;
+//    private NavigationView navigationView;
+//    private MaterialToolbar toolbar;
+//
+//    private DatabaseReference rootRef;
+//    private String safeEmail;
+//
+//    @Override
+//    protected void onCreate(Bundle savedInstanceState) {
+//        super.onCreate(savedInstanceState);
+//        setContentView(R.layout.activity_main);
+//
+//        initViews();
+//        setupToolbarDrawer();
+//        setupFirebase();
+//        setCurrentDate();
+//        setupClickListeners();
+//        loadHostelDetails();
+//        loadDashboardStats();
+//        setupDrawerMenuClicks();
+//    }
+//
+//    private void initViews() {
+//        toolbar = findViewById(R.id.toolbar);
+//        drawerLayout = findViewById(R.id.drawer_layout);
+//        navigationView = findViewById(R.id.navigationView);
+//
+//        ivToolbarLogo = findViewById(R.id.ivToolbarLogo);
+//        tvToolbarHostelName = findViewById(R.id.tvToolbarHostelName);
+//        tvCurrentDate = findViewById(R.id.tvCurrentDate);
+//
+//        tvTotalRooms = findViewById(R.id.tvTotalRooms);
+//        tvTotalStudentsDashboard = findViewById(R.id.tvTotalStudentsDashboard);
+//        tvPendingFees = findViewById(R.id.tvPendingFees);
+//        tvOccupiedRooms = findViewById(R.id.tvOccupiedRooms);
+//        tvAvailableRooms = findViewById(R.id.tvAvailableRooms);
+//        tvTotalRevenue = findViewById(R.id.tvTotalRevenue);
+//        tvPendingStudents = findViewById(R.id.tvPendingStudents);
+//
+//        cardAddStudent = findViewById(R.id.cardAddStudent);
+//        cardCollectFees = findViewById(R.id.cardCollectFees);
+//        cardFeeHistory = findViewById(R.id.cardFeeHistory);
+//        cardManageRooms = findViewById(R.id.cardManageRooms);
+//    }
+//
+//    private void setupToolbarDrawer() {
+//        setSupportActionBar(toolbar);
+//
+//        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+//                this,
+//                drawerLayout,
+//                toolbar,
+//                R.string.navigation_drawer_open,
+//                R.string.navigation_drawer_close
+//        );
+//
+//        drawerLayout.addDrawerListener(toggle);
+//        toggle.syncState();
+//    }
+//
+//    private void setupFirebase() {
+//        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+//        if (user == null) return;
+//
+//        safeEmail = user.getEmail().replace(".", ",");
+//        rootRef = FirebaseDatabase.getInstance()
+//                .getReference("HostelManagement")
+//                .child(safeEmail);
+//    }
+//
+//    private void setCurrentDate() {
+//        SimpleDateFormat sdf = new SimpleDateFormat("MMMM dd, yyyy", Locale.getDefault());
+//        tvCurrentDate.setText(sdf.format(new Date()));
+//    }
+//
+//    private void setupClickListeners() {
+//        ivToolbarLogo.setOnClickListener(v ->
+//                startActivity(new Intent(MainActivity.this, ProfileActivity.class)));
+//
+//        cardAddStudent.setOnClickListener(v ->
+//                startActivity(new Intent(MainActivity.this, AddStudentActivity.class)));
+//
+//        cardCollectFees.setOnClickListener(v ->
+//                startActivity(new Intent(MainActivity.this, CollectFeesActivity.class)));
+//
+//        cardFeeHistory.setOnClickListener(v ->
+//                startActivity(new Intent(MainActivity.this, FeeHistoryActivity.class)));
+//
+//        cardManageRooms.setOnClickListener(v ->
+//                startActivity(new Intent(MainActivity.this, StudentListActivity.class)));
+//    }
+//
+//    private void setupDrawerMenuClicks() {
+//        navigationView.setNavigationItemSelectedListener(item -> {
+//            int id = item.getItemId();
+//
+//            if (id == R.id.menuAddStudent) {
+//                startActivity(new Intent(MainActivity.this, AddStudentActivity.class));
+//            }
+//            else if (id == R.id.menuStudents) {
+//                startActivity(new Intent(MainActivity.this, StudentListActivity.class));
+//            }
+//            else if (id == R.id.menuCollectFees) {
+//                startActivity(new Intent(MainActivity.this, CollectFeesActivity.class));
+//            }
+//            else if (id == R.id.menuCollectFeesHistory) {
+//                startActivity(new Intent(MainActivity.this, FeeHistoryActivity.class));
+//            }
+//            else if (id == R.id.menuExpenses) {
+//                startActivity(new Intent(MainActivity.this, ExpenseEntryActivity.class));
+//            }
+//            else if (id == R.id.menuRooms) {
+//                startActivity(new Intent(MainActivity.this, RoomsActivity.class));
+//            }
+//            else if (id == R.id.menuLogout) {
+//                FirebaseAuth.getInstance().signOut();
+//                startActivity(new Intent(MainActivity.this, LoginActivity.class));
+//                finish();
+//            }
+//
+//            drawerLayout.closeDrawers();
+//            return true;
+//        });
+//    }
+//
+//    private void loadHostelDetails() {
+//        rootRef.child("ownerInfo").addListenerForSingleValueEvent(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot snapshot) {
+//
+//                String name = snapshot.child("hostelName").getValue(String.class);
+//                String logo = snapshot.child("logoUrl").getValue(String.class);
+//                String rooms = snapshot.child("rooms").getValue(String.class);
+//
+//                if (name != null) tvToolbarHostelName.setText(name);
+//                if (rooms != null) tvTotalRooms.setText(rooms);
+//
+//                if (logo != null && !logo.isEmpty()) {
+//                    Glide.with(MainActivity.this)
+//                            .load(logo)
+//                            .circleCrop()
+//                            .into(ivToolbarLogo);
+//                }
+//            }
+//
+//            @Override public void onCancelled(@NonNull DatabaseError error) {}
+//        });
+//    }
+//
+//    private void loadDashboardStats() {
+//        rootRef.child("Students").addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot snapshot) {
+//
+//                int total = 0, pendingAmount = 0, pendingCount = 0, revenue = 0;
+//                HashSet<String> occupiedRooms = new HashSet<>();
+//
+//                for (DataSnapshot ds : snapshot.getChildren()) {
+//                    StudentModel s = ds.getValue(StudentModel.class);
+//                    if (s != null && s.isActive()) {
+//
+//                        total++;
+//                        pendingAmount += s.getRemainingFee();
+//
+//                        if (s.getRemainingFee() > 0) pendingCount++;
+//                        revenue += s.getPaidFee();
+//
+//                        String room = s.getRoom();
+//                        if (room != null && !room.trim().isEmpty()) {
+//                            occupiedRooms.add(room.trim());
+//                        }
+//                    }
+//                }
+//
+//                tvTotalStudentsDashboard.setText(String.valueOf(total));
+//                tvPendingFees.setText("₹ " + pendingAmount);
+//                tvPendingStudents.setText(pendingCount + " students");
+//                tvTotalRevenue.setText("₹ " + revenue);
+//                tvOccupiedRooms.setText(String.valueOf(occupiedRooms.size()));
+//
+//                try {
+//                    int totalR = Integer.parseInt(tvTotalRooms.getText().toString());
+//                    int avail = totalR - occupiedRooms.size();
+//                    tvAvailableRooms.setText(String.valueOf(Math.max(avail, 0)));
+//                } catch (Exception e) {
+//                    tvAvailableRooms.setText("0");
+//                }
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError error) {}
+//        });
+//    }
+//}
+
+
+
 package com.sandhyasofttech.hostelmanagement;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
+import android.widget.ImageView;
+import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.view.GravityCompat;
+
 import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.viewpager2.widget.ViewPager2;
+
+import com.bumptech.glide.Glide;
 import com.google.android.material.appbar.MaterialToolbar;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.*;
+
+import androidx.cardview.widget.CardView;
+
 import com.sandhyasofttech.hostelmanagement.Activities.*;
-import com.sandhyasofttech.hostelmanagement.Adapters.ViewPagerAdapter;
+import com.sandhyasofttech.hostelmanagement.Models.StudentModel;
 import com.sandhyasofttech.hostelmanagement.Registration.LoginActivity;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.Locale;
+
 public class MainActivity extends AppCompatActivity {
-    private DrawerLayout drawerLayout;
-    private ActionBarDrawerToggle toggle;
-    private ViewPager2 viewPager;
-    private BottomNavigationView bottomNavigationView;
-    private FloatingActionButton fab;
-    private ViewPagerAdapter viewPagerAdapter;
-    private boolean isUserInitiatedScroll = true;
+
+    private TextView tvToolbarHostelName, tvCurrentDate;
+    private TextView tvTotalRooms, tvTotalStudentsDashboard, tvPendingFees;
+    private TextView tvOccupiedRooms, tvAvailableRooms, tvTotalRevenue, tvPendingStudents;
+
+    private ImageView ivToolbarLogo;
+    private CardView cardAddStudent, cardCollectFees, cardFeeHistory, cardManageRooms;
+
+    private DatabaseReference rootRef;
+    private String safeEmail;
+
+    DrawerLayout drawerLayout;
+    NavigationView navigationView;
+    MaterialToolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Check if user is logged in
-        if (FirebaseAuth.getInstance().getCurrentUser() == null) {
-            startActivity(new Intent(this, LoginActivity.class));
-            finish();
-            return;
-        }
-
         initViews();
         setupToolbarAndDrawer();
-        setupViewPager();
-        setupBottomNavAndFAB();
+        setupFirebase();
+        setCurrentDate();
+
+        setupClickListeners();
+        loadHostelDetails();
+        loadDashboardStats();
+        setupDrawerClicks();
+        setupFabButton();
     }
 
     private void initViews() {
+        toolbar = findViewById(R.id.toolbar);
         drawerLayout = findViewById(R.id.drawer_layout);
-        viewPager = findViewById(R.id.viewpager);
-        bottomNavigationView = findViewById(R.id.bottomNavigationView);
-        fab = findViewById(R.id.fab);
+        navigationView = findViewById(R.id.navigationView);
+
+        ivToolbarLogo = findViewById(R.id.ivToolbarLogo);
+        tvToolbarHostelName = findViewById(R.id.tvToolbarHostelName);
+        tvCurrentDate = findViewById(R.id.tvCurrentDate);
+
+        tvTotalRooms = findViewById(R.id.tvTotalRooms);
+        tvTotalStudentsDashboard = findViewById(R.id.tvTotalStudentsDashboard);
+        tvPendingFees = findViewById(R.id.tvPendingFees);
+        tvOccupiedRooms = findViewById(R.id.tvOccupiedRooms);
+        tvAvailableRooms = findViewById(R.id.tvAvailableRooms);
+        tvTotalRevenue = findViewById(R.id.tvTotalRevenue);
+        tvPendingStudents = findViewById(R.id.tvPendingStudents);
+
+        cardAddStudent = findViewById(R.id.cardAddStudent);
+        cardCollectFees = findViewById(R.id.cardCollectFees);
+        cardFeeHistory = findViewById(R.id.cardFeeHistory);
+        cardManageRooms = findViewById(R.id.cardManageRooms);
     }
 
     private void setupToolbarAndDrawer() {
-        MaterialToolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        // Setup Hamburger Menu (Drawer Toggle)
-        toggle = new ActionBarDrawerToggle(
-                this, drawerLayout, toolbar,
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this,
+                drawerLayout,
+                toolbar,
                 R.string.navigation_drawer_open,
                 R.string.navigation_drawer_close
         );
+
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
+    }
 
-        // Navigation Drawer Menu Click Listener
-        NavigationView navigationView = findViewById(R.id.navigationView);
+    private void setupFirebase() {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user == null) return;
+
+        safeEmail = user.getEmail().replace(".", ",");
+        rootRef = FirebaseDatabase.getInstance()
+                .getReference("HostelManagement")
+                .child(safeEmail);
+    }
+
+    private void setCurrentDate() {
+        SimpleDateFormat sdf = new SimpleDateFormat("MMMM dd, yyyy", Locale.getDefault());
+        tvCurrentDate.setText(sdf.format(new Date()));
+    }
+
+    private void setupClickListeners() {
+        ivToolbarLogo.setOnClickListener(v ->
+                startActivity(new Intent(MainActivity.this, ProfileActivity.class)));
+
+        cardAddStudent.setOnClickListener(v ->
+                startActivity(new Intent(MainActivity.this, AddStudentActivity.class)));
+
+        cardCollectFees.setOnClickListener(v ->
+                startActivity(new Intent(MainActivity.this, CollectFeesActivity.class)));
+
+        cardFeeHistory.setOnClickListener(v ->
+                startActivity(new Intent(MainActivity.this, FeeHistoryActivity.class)));
+
+        cardManageRooms.setOnClickListener(v ->
+                startActivity(new Intent(MainActivity.this, StudentListActivity.class)));
+    }
+
+    private void setupFabButton() {
+        FloatingActionButton fab = findViewById(R.id.fab_quick);
+        fab.setOnClickListener(v ->
+                startActivity(new Intent(MainActivity.this, AddStudentActivity.class))
+        );
+    }
+
+    private void setupDrawerClicks() {
         navigationView.setNavigationItemSelectedListener(item -> {
+
             int id = item.getItemId();
 
             if (id == R.id.menuAddStudent) {
-                startActivity(new Intent(this, AddStudentActivity.class));
+                startActivity(new Intent(MainActivity.this, AddStudentActivity.class));
+
             } else if (id == R.id.menuStudents) {
-                startActivity(new Intent(this, StudentListActivity.class));
+                startActivity(new Intent(MainActivity.this, StudentListActivity.class));
+
             } else if (id == R.id.menuCollectFees) {
-                startActivity(new Intent(this, CollectFeesActivity.class));
+                startActivity(new Intent(MainActivity.this, CollectFeesActivity.class));
+
             } else if (id == R.id.menuCollectFeesHistory) {
-                startActivity(new Intent(this, FeeHistoryActivity.class));
+                startActivity(new Intent(MainActivity.this, FeeHistoryActivity.class));
+
             } else if (id == R.id.menuExpenses) {
-                startActivity(new Intent(this, ExpenseListActivity.class));
+                startActivity(new Intent(MainActivity.this, ExpenseEntryActivity.class));
+
             } else if (id == R.id.menuRooms) {
-                startActivity(new Intent(this, RoomsActivity.class));
+                startActivity(new Intent(MainActivity.this, RoomsActivity.class));
+
             } else if (id == R.id.menuLogout) {
                 FirebaseAuth.getInstance().signOut();
-                startActivity(new Intent(this, LoginActivity.class)
-                        .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
+                startActivity(new Intent(MainActivity.this, LoginActivity.class));
                 finish();
             }
 
-            drawerLayout.closeDrawer(GravityCompat.START);
+            drawerLayout.closeDrawers();
             return true;
         });
     }
 
-    private void setupViewPager() {
-        // Create and attach adapter to ViewPager2
-        viewPagerAdapter = new ViewPagerAdapter(this);
-        viewPager.setAdapter(viewPagerAdapter);
-
-        // Set page transformer for smooth animations
-        viewPager.setPageTransformer(new ViewPager2.PageTransformer() {
+    private void loadHostelDetails() {
+        rootRef.child("ownerInfo").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void transformPage(@NonNull android.view.View page, float position) {
-                // Optional: Add parallax or other effects
-                page.setAlpha(1 - (Math.abs(position) * 0.3f));
-            }
-        });
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
 
-        // Listen to page changes and sync with bottom navigation
-        viewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
-            @Override
-            public void onPageSelected(int position) {
-                super.onPageSelected(position);
-                if (isUserInitiatedScroll) {
-                    // Update bottom nav without triggering ViewPager2 callback
-                    isUserInitiatedScroll = false;
-                    updateBottomNav(position);
-                    updateToolbarTitle(position);
-                    isUserInitiatedScroll = true;
+                String name = snapshot.child("hostelName").getValue(String.class);
+                String logo = snapshot.child("logoUrl").getValue(String.class);
+                String rooms = snapshot.child("rooms").getValue(String.class);
+
+                if (name != null) tvToolbarHostelName.setText(name);
+
+                if (rooms != null && !rooms.trim().isEmpty())
+                    tvTotalRooms.setText(rooms);
+
+                if (logo != null && !logo.isEmpty()) {
+                    Glide.with(MainActivity.this)
+                            .load(logo)
+                            .circleCrop()
+                            .into(ivToolbarLogo);
                 }
             }
+
+            @Override public void onCancelled(@NonNull DatabaseError error) {}
         });
     }
 
-    private void setupBottomNavAndFAB() {
-        bottomNavigationView.setOnItemSelectedListener(item -> {
-            int id = item.getItemId();
+    private void loadDashboardStats() {
+        rootRef.child("Students").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
 
-            if (id == R.id.nav_dashboard) {
-                isUserInitiatedScroll = false;
-                viewPager.setCurrentItem(ViewPagerAdapter.TAB_DASHBOARD, true);
-                isUserInitiatedScroll = true;
-                return true;
-            } else if (id == R.id.nav_settings) {
-                isUserInitiatedScroll = false;
-                viewPager.setCurrentItem(ViewPagerAdapter.TAB_SETTINGS, true);
-                isUserInitiatedScroll = true;
-                return true;
+                int total = 0, pendingAmount = 0, pendingCount = 0, revenue = 0;
+                HashSet<String> occupiedRooms = new HashSet<>();
+
+                for (DataSnapshot ds : snapshot.getChildren()) {
+                    StudentModel s = ds.getValue(StudentModel.class);
+
+                    if (s != null && s.isActive()) {
+                        total++;
+
+                        int remaining = s.getRemainingFee();
+                        pendingAmount += remaining;
+
+                        if (remaining > 0) pendingCount++;
+
+                        revenue += s.getPaidFee();
+
+                        String room = s.getRoom();
+                        if (room != null && !room.trim().isEmpty()) {
+                            occupiedRooms.add(room.trim());
+                        }
+                    }
+                }
+
+                tvTotalStudentsDashboard.setText(String.valueOf(total));
+                tvPendingFees.setText("₹ " + pendingAmount);
+                tvPendingStudents.setText(pendingCount + " students");
+                tvTotalRevenue.setText("₹ " + revenue);
+                tvOccupiedRooms.setText(String.valueOf(occupiedRooms.size()));
+
+                updateAvailableRooms(occupiedRooms.size());
             }
-            return false;
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {}
         });
-
-        // FAB → Add Student
-        fab.setOnClickListener(v ->
-                startActivity(new Intent(this, AddStudentActivity.class)));
     }
 
-    private void updateBottomNav(int position) {
-        switch (position) {
-            case ViewPagerAdapter.TAB_DASHBOARD:
-                bottomNavigationView.setSelectedItemId(R.id.nav_dashboard);
-                break;
-            case ViewPagerAdapter.TAB_SETTINGS:
-                bottomNavigationView.setSelectedItemId(R.id.nav_settings);
-                break;
-        }
-    }
+    private void updateAvailableRooms(int occupiedCount) {
+        String totalRoomStr = tvTotalRooms.getText().toString().trim();
+        int totalR = 0;
 
-    private void updateToolbarTitle(int position) {
-        switch (position) {
-            case ViewPagerAdapter.TAB_DASHBOARD:
-                getSupportActionBar().setTitle("Dashboard");
-                break;
-            case ViewPagerAdapter.TAB_SETTINGS:
-                getSupportActionBar().setTitle("Settings");
-                break;
-        }
-    }
+        try {
+            totalR = Integer.parseInt(totalRoomStr);
+        } catch (Exception ignored) {}
 
-    @Override
-    public void onBackPressed() {
-        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
-            drawerLayout.closeDrawer(GravityCompat.START);
-        } else if (viewPager.getCurrentItem() != ViewPagerAdapter.TAB_DASHBOARD) {
-            viewPager.setCurrentItem(ViewPagerAdapter.TAB_DASHBOARD, true);
-        } else {
-            super.onBackPressed();
-        }
-    }
+        int avail = totalR - occupiedCount;
+        if (avail < 0) avail = 0;
 
-    @Override
-    public boolean onSupportNavigateUp() {
-        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
-            drawerLayout.closeDrawer(GravityCompat.START);
-        } else {
-            drawerLayout.openDrawer(GravityCompat.START);
-        }
-        return true;
+        tvAvailableRooms.setText(String.valueOf(avail));
     }
 }

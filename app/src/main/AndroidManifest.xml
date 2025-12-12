@@ -31,9 +31,7 @@
         <activity
             android:name=".Activities.ExpenseEntryActivity"
             android:exported="false" />
-        <activity
-            android:name=".Activities.FeeReceiptActivity"
-            android:exported="false" />
+
 
         <provider
             android:name="androidx.core.content.FileProvider"

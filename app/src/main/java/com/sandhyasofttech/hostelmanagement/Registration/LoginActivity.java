@@ -1,5 +1,6 @@
 package com.sandhyasofttech.hostelmanagement.Registration;
 
+import com.sandhyasofttech.hostelmanagement.MainActivity;
 import com.sandhyasofttech.hostelmanagement.R;
 
 import android.content.Intent;
@@ -21,7 +22,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.sandhyasofttech.hostelmanagement.MainActivity;
 import com.sandhyasofttech.hostelmanagement.Utils.PrefManager;
 
 public class LoginActivity extends AppCompatActivity {
